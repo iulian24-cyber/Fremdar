@@ -1,0 +1,12 @@
+martian state machine
+In day-time the martians will try to sneak attack but will run when seen.
+sa te uiti pa ei ca nu se stie de unde vin si sa nu te sape -> ziua
+In night-time the martians you will sneak and beware of the martians.
+-atmosphere changes
+-if you hear a sound must stop immediately and turn off the engine.
+-if you see a martian wait untill he leaves.
+Chase from something.
+
+
+death -> they all go on the car and start mashing the windows, after they break you will explode from the pressure
+3 death screens
