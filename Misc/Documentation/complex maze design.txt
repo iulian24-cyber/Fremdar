@@ -1,0 +1,3 @@
+complex maze design https://www.mazegenerator.net/Examples.aspx
+do something so that the maze will be ok in every way you go
+-set piece that you need to go back and it is different, the walls are changing constantly
