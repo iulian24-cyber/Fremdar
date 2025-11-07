@@ -11,8 +11,8 @@ config_version=5
 [application]
 
 config/name="Fremdar"
-run/main_scene="uid://bec1pvji1auer"
-config/features=PackedStringArray("4.5", "Forward Plus")
+run/main_scene="uid://bbqet3xhwid2t"
+config/features=PackedStringArray("4.5", "C#", "Forward Plus")
 
 [dotnet]
 
