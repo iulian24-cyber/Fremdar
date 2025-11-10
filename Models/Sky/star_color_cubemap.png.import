@@ -1,0 +1,27 @@
+[remap]
+
+importer="cubemap_texture"
+type="CompressedCubemap"
+uid="uid://cs5cljwxnhp1p"
+path="res://.godot/imported/star_color_cubemap.png-5ce611fb249f80b4096f890b97223fde.ccube"
+metadata={
+"vram_texture": false
+}
+
+[deps]
+
+source_file="res://Models/Sky/star_color_cubemap.png"
+dest_files=["res://.godot/imported/star_color_cubemap.png-5ce611fb249f80b4096f890b97223fde.ccube"]
+
+[params]
+
+compress/mode=0
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/uastc_level=0
+compress/rdo_quality_loss=0.0
+compress/hdr_compression=1
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+slices/arrangement=3

@@ -1,20 +1,31 @@
-[gd_scene load_steps=10 format=3 uid="uid://bbqet3xhwid2t"]
+[gd_scene load_steps=12 format=3 uid="uid://bbqet3xhwid2t"]
 
 [ext_resource type="Shader" uid="uid://b0qaje0l28xsb" path="res://Shaders/skybox.gdshader" id="1_dtjkg"]
 [ext_resource type="Script" uid="uid://cti7tqd63acfo" path="res://Scripts/SkyboxController.cs" id="1_iti4p"]
 [ext_resource type="Texture2D" uid="uid://baihe8gulalo0" path="res://Models/Sky/sun_view_gradient.png" id="2_7w7ni"]
+[ext_resource type="CompressedCubemap" uid="uid://dlchi582da0r7" path="res://Models/Sky/moon_color_cubemap.jpg" id="2_btda1"]
 [ext_resource type="Texture2D" uid="uid://dgx5l87jkqpf2" path="res://Models/Sky/sun_zenith_gradient.png" id="3_btda1"]
+[ext_resource type="CompressedCubemap" uid="uid://cs5cljwxnhp1p" path="res://Models/Sky/star_color_cubemap.png" id="3_xq3o0"]
 [ext_resource type="Texture2D" uid="uid://dfu7yo6ghmlne" path="res://Models/Sky/view_zenith_gradient.png" id="4_xq3o0"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dtjkg"]
 shader = ExtResource("1_dtjkg")
-shader_parameter/sun_dir = Vector3(0.25, 0.86602545, -0.43301266)
+shader_parameter/sun_dir = Vector3(0.25000006, -0.44504678, -0.8599031)
 shader_parameter/moon_dir = Vector3(0, 0, 1)
 shader_parameter/sun_zenith_gradient = ExtResource("3_btda1")
 shader_parameter/view_zenith_gradient = ExtResource("4_xq3o0")
 shader_parameter/sun_view_gradient = ExtResource("2_7w7ni")
 shader_parameter/sun_radius = 0.05
 shader_parameter/sun_color = Color(1, 1, 1, 1)
+shader_parameter/moon_radius = 0.070000003325
+shader_parameter/moon_exposure = 0.0
+shader_parameter/moon_cubemap = ExtResource("2_btda1")
+shader_parameter/moon_world_to_object = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
+shader_parameter/star_cubemap = ExtResource("3_xq3o0")
+shader_parameter/star_exposure = 0.0
+shader_parameter/star_power = 1.0
+shader_parameter/star_latitude = 4.2749999948910045e-06
+shader_parameter/star_speed = 0.001
 
 [sub_resource type="Sky" id="Sky_eglq2"]
 sky_material = SubResource("ShaderMaterial_dtjkg")
@@ -35,7 +46,7 @@ environment = SubResource("Environment_dtjkg")
 script = ExtResource("1_iti4p")
 
 [node name="Sun" type="DirectionalLight3D" parent="Sky&Environment"]
-transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+transform = Transform3D(-0.86602527, -0.4330129, 0.25000006, -0.4999513, 0.7429545, -0.4450469, 0.0069720894, -0.5104096, -0.85990345, 0, 0, 0)
 shadow_enabled = true
 
 [node name="Moon" type="Node3D" parent="Sky&Environment"]

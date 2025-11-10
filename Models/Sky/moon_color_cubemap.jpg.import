@@ -1,0 +1,27 @@
+[remap]
+
+importer="cubemap_texture"
+type="CompressedCubemap"
+uid="uid://dlchi582da0r7"
+path="res://.godot/imported/moon_color_cubemap.jpg-5d77558aeb9610d5f04a7272b32a6298.ccube"
+metadata={
+"vram_texture": false
+}
+
+[deps]
+
+source_file="res://Models/Sky/moon_color_cubemap.jpg"
+dest_files=["res://.godot/imported/moon_color_cubemap.jpg-5d77558aeb9610d5f04a7272b32a6298.ccube"]
+
+[params]
+
+compress/mode=0
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/uastc_level=0
+compress/rdo_quality_loss=0.0
+compress/hdr_compression=1
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+slices/arrangement=3
