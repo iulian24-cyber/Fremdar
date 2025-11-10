@@ -8,8 +8,8 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dtjkg"]
 shader = ExtResource("1_dtjkg")
-shader_parameter/sun_dir = Vector3(1, 0, 0)
-shader_parameter/moon_dir = Vector3(0, 0, 0)
+shader_parameter/sun_dir = Vector3(0.25, 0.86602545, -0.43301266)
+shader_parameter/moon_dir = Vector3(0, 0, 1)
 shader_parameter/sun_zenith_gradient = ExtResource("3_btda1")
 shader_parameter/view_zenith_gradient = ExtResource("4_xq3o0")
 shader_parameter/sun_view_gradient = ExtResource("2_7w7ni")
