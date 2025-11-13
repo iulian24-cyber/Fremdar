@@ -1,11 +1,18 @@
-skybox shader for godot https://kelvinvanhoorn.com/2024/12/07/skybox-tutorial-godot/
 main menu -> live menu view from inside the cassian raining, buttons{start game}, {options}, {exit to desktop} https://www.youtube.com/watch?v=j_vSOSMgxxg
 https://halome.nu/infinite/
+
 head movement player (mouse rotation and joystick) cu tot cu scaun
+
 movement player spaceship (state machine) -> take into account
+
 search for martian animations playlist on mixamo -> send to calin recele
+
 martian animations code + ai "system" for martian (state_machine)
+
 shader pentru foliaj de miscare (vant)
+
 shader pentru geamurile masini, picaturi
+
 sound efx for -martian environment; -martians; -cassian sounds{terminal, movement, accelerator}
+
 give him inspiration tho, put andrei to make 3 atmospheric songs! 
