@@ -1,21 +1,22 @@
 using Godot;
 using System;
 
-[Tool]
 public partial class SkyboxController : WorldEnvironment
 {
-	DirectionalLight3D Sun;
+	DirectionalLight3D Sun, ShadowLight;
 	Node3D A;
 	Node3D B;
 	Node3D C;
 	float SunDegrees = 0.0f;
 	float Distance = 0.0f;
+	float SunEnergy = 1.0f;
 	public override void _Ready()
 	{
 		Sun = GetParent()?.GetNodeOrNull<DirectionalLight3D>("Sun");
+		ShadowLight = GetParent()?.GetNodeOrNull<DirectionalLight3D>("ShadowLight");
 		A = GetParent()?.GetNodeOrNull<Node3D>("Sunrise&SunsetPoints/SunrisePoint"); // Sunrise Point {-1}
 		B = GetParent()?.GetNodeOrNull<Node3D>("Sunrise&SunsetPoints/SunsetPoint"); // Sunset Point {+1}
-		C = GetParent()?.GetNodeOrNull<Node3D>("Sunrise&SunsetPoints/ShipPoint"); // Ship Point
+		C = GetParent()?.GetParent()?.GetNodeOrNull<CharacterBody3D>("Cassian 4-62"); // Ship Point
 	}
 	
 	public override void _Process(double delta)
@@ -26,15 +27,22 @@ public partial class SkyboxController : WorldEnvironment
 		}
 		if (Sun != null)
 		{
-			SunDegrees = Distance * -180.0f;
-			//node.transform.basis = Basis(Vector3(0, 1, 0), deg2rad(90))
+			SunDegrees = Distance * 180.0f;
 			Transform3D T = Sun.Transform;
 			T.Basis = new Basis(new Vector3(1, 0, 0), Mathf.DegToRad(SunDegrees));
 			Sun.Transform = T;
-			//Sun.RotationDegrees.X = SunDegrees;
-			//Sun.Transform.Basis = Basis(Vector3(0, 1, 0), Deg2Rad(SunDegrees));
+			if (Distance <= 0.0f)
+			{
+				ShadowLight.LightEnergy = Distance;
+				Sun.LightEnergy = 1.0f;
+			}
+			else
+			{
+				Sun.LightEnergy = 0.0f;
+				ShadowLight.LightEnergy = 0.0f;
+			}
 		}
-		// Skybox Shader Parameters - snakeCase
+		// Skybox Shader Parameters
 		Vector3 sun_dir = GetNode<Node3D>("../Sun").GlobalTransform.Basis.Z;
 		var moon_basis = GetNode<Node3D>("../Moon").GlobalTransform.Basis;
 		Vector3 moon_dir = GetNode<Node3D>("../Moon").GlobalTransform.Basis.Z;
