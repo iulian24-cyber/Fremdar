@@ -425,7 +425,6 @@ environment = SubResource("Environment_dtjkg")
 script = ExtResource("1_iti4p")
 
 [node name="Sun" type="DirectionalLight3D" parent="Sky&Environment"]
-shadow_enabled = true
 
 [node name="ShadowLight" type="DirectionalLight3D" parent="Sky&Environment"]
 transform = Transform3D(1, 0, 0, 0, -0.79067874, 0.6122313, 0, -0.6122313, -0.79067874, 0, 0, 0)
@@ -511,8 +510,11 @@ transform = Transform3D(0.01, 0, 0, 0, 0, -0.01, 0, 0.01, 0, 0, 0, 0)
 mesh = SubResource("ArrayMesh_brm4j")
 skeleton = NodePath("")
 
-[node name="joystick_stick" type="MeshInstance3D" parent="Cassian 4-62/ShipMesh/Chair/Joystick"]
-transform = Transform3D(0.01, 0, 0, 0, -4.3711387e-10, -0.01, 0, 0.01, -4.3711387e-10, 0, 0, 0)
+[node name="JoystickStick" type="Node3D" parent="Cassian 4-62/ShipMesh/Chair/Joystick"]
+transform = Transform3D(1, 0, 1.7484555e-07, 0, 1, 0, -1.7484555e-07, 0, 1, 0.38569582, 0.6016475, -0.022270456)
+
+[node name="joystick_stick" type="MeshInstance3D" parent="Cassian 4-62/ShipMesh/Chair/Joystick/JoystickStick"]
+transform = Transform3D(0.01, -1.7484555e-09, 7.642742e-17, 0, -4.3711387e-10, -0.01, 1.7484555e-09, 0.01, -4.3711387e-10, -0.38569582, -0.6016475, 0.022270389)
 mesh = SubResource("ArrayMesh_abig0")
 skeleton = NodePath("")
 

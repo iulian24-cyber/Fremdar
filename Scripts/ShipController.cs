@@ -53,7 +53,7 @@ public partial class ShipController : CharacterBody3D
 			LookDir = SmoothedLookDir;
 			if (Chair != null)
 			{
-
+				GD.Print(Mathf.RadToDeg(Camera.Rotation.Y) % 360.0f);
 			}
 			RotateCamera();	
 			TargetLookDir = TargetLookDir.MoveToward(Vector2.Zero, MouseSmoothness);
@@ -81,6 +81,11 @@ public partial class ShipController : CharacterBody3D
 		float NewPitch = Camera.Rotation.X - LookDir.Y * CameraSensitivity * SensMod;
 		Camera.Rotation = Camera.Rotation with { X = Mathf.Clamp(NewPitch, Mathf.DegToRad(-89), Mathf.DegToRad(89)) };
 		LookDir = Vector2.Zero;
+	}
+	
+	private void RotateChair()
+	{
+		
 	}
 	
 	private void HandleJoypadCameraRotation(double delta, float SensMod = 1.0f)
