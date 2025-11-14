@@ -1,0 +1,5 @@
+states
+
+idle, moving, accelerating, attacked
+moving & accelerating constraint -> when going into a wall it gets a little bit louder and that's it
+attacked -> no escape to other state, starting "scare" sequence

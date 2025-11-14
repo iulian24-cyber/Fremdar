@@ -1,6 +1,7 @@
 using Godot;
 using System;
 
+[GlobalClass]
 public partial class State : Resource
 {
 	// Called when the machine transitions to this state
