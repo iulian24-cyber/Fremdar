@@ -19,6 +19,10 @@ public partial class ShipController : CharacterBody3D
 	public StateMachine ShipStateMachine;
 	float Gravity = (float)ProjectSettings.GetSetting("physics/3d/default_gravity");
 	Vector3 GravityVelocity = Vector3.Zero;
+	Vector2 MoveDir = Vector2.Zero;
+	[Export] public float MoveSpeed = 10f;
+	[Export] public float AccelerationSpeed = 15f;
+	[Export] public float RotationSpeed = 2f;
 	
 	public override void _Ready()
 	{
@@ -29,7 +33,8 @@ public partial class ShipController : CharacterBody3D
 		ShipState[] States = new ShipState[]{
 			new ShipIdleState(),
 			new ShipMovingState(),
-			new ShipStoppedState()
+			new ShipStoppedState(),
+			new ShipAcceleratingState()
 		};
 		foreach (var state in States)
 		{
@@ -132,5 +137,65 @@ public partial class ShipController : CharacterBody3D
 			GravityVelocity = GravityVelocity.MoveToward(Target, Gravity * (float)delta);
 		}
 		return GravityVelocity;
+	}
+	
+	public Vector3 _Move(double delta)
+	{
+		Vector3 Vel = Velocity;
+		Vector2 MoveVec = Input.GetVector(
+			"MoveRight",       // negative X
+			"MoveLeft",      // positive X
+			"MoveDown",    // positive Y
+			"MoveUp"   // negative Y
+		);
+		float TurnSign = MoveVec.Y >= 0f ? 1f : -1f;  // Reverse steering
+		float FinalTurnInput = MoveVec.X * TurnSign; // When backwards
+		if (FinalTurnInput != 0f)
+			Rotation = Rotation with { Y = Rotation.Y + FinalTurnInput * RotationSpeed * (float)delta };
+		Vector3 Forward = -GlobalTransform.Basis.Z;
+		Forward.Y = 0;
+		Forward = Forward.Normalized();
+		if (MoveVec.Y != 0f)
+		{
+			Vel.X = Forward.X * MoveVec.Y * MoveSpeed;
+			Vel.Z = Forward.Z * MoveVec.Y * MoveSpeed;
+		}
+		else
+		{
+			// Smooth stop
+			Vel.X = Mathf.Lerp(Vel.X, 0f, (float)delta * 7f);
+			Vel.Z = Mathf.Lerp(Vel.Z, 0f, (float)delta * 7f);
+		}
+		return Vel;
+	}
+	
+	public Vector3 _Accelerate(double delta)
+	{
+		Vector3 Vel = Velocity;
+		Vector2 MoveVec = Input.GetVector(
+			"MoveRight",       // negative X
+			"MoveLeft",      // positive X
+			"MoveDown",    // positive Y
+			"MoveUp"   // negative Y
+		);
+		float TurnSign = MoveVec.Y >= 0f ? 1f : -1f;  // Reverse steering
+		float FinalTurnInput = MoveVec.X * TurnSign; // When backwards
+		if (FinalTurnInput != 0f)
+			Rotation = Rotation with { Y = Rotation.Y + FinalTurnInput * RotationSpeed * (float)delta };
+		Vector3 Forward = -GlobalTransform.Basis.Z;
+		Forward.Y = 0;
+		Forward = Forward.Normalized();
+		if (MoveVec.Y != 0f)
+		{
+			Vel.X = Forward.X * MoveVec.Y * AccelerationSpeed;
+			Vel.Z = Forward.Z * MoveVec.Y * AccelerationSpeed;
+		}
+		else
+		{
+			// Smooth stop
+			Vel.X = Mathf.Lerp(Vel.X, 0f, (float)delta * 7f);
+			Vel.Z = Mathf.Lerp(Vel.Z, 0f, (float)delta * 7f);
+		}
+		return Vel;
 	}
 }

@@ -23,6 +23,6 @@ public partial class ShipMovingState : ShipState
 	
 	public override void PhysicsProcess(double delta)
 	{
-		Ship.Velocity = Ship._Gravity(delta);
+		Ship.Velocity = Ship._Gravity(delta) + Ship._Move(delta);
 	}
 }

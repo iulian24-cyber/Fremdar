@@ -14,7 +14,12 @@ public partial class ShipIdleState : ShipState
 	{
 		Vector2 ShipInput = Godot.Input.GetVector("MoveLeft", "MoveRight", "MoveUp", "MoveDown");
 		if (ShipInput != Vector2.Zero)
-			ShipStateMachine.Transition(ShipMovingState.StateName);
+		{
+			if (Godot.Input.IsActionPressed("Shift"))
+				ShipStateMachine.Transition(ShipAcceleratingState.StateName);
+			else
+				ShipStateMachine.Transition(ShipMovingState.StateName);
+		}
 		if (Godot.Input.IsActionJustPressed("E"))
 			ShipStateMachine.Transition(ShipStoppedState.StateName);
 	}
