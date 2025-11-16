@@ -4,12 +4,12 @@ using System;
 [GlobalClass]
 public partial class ShipState : State
 {
-	ShipController Ship;
-	StateMachine ShipStateMachine;
+	protected ShipController Ship;
+	protected StateMachine ShipStateMachine;
 	
 	public void Init(ShipController ship)
 	{
 		Ship = ship;
-		ShipStateMachine = Ship.stateMachine;
+		ShipStateMachine = Ship.ShipStateMachine;
 	}
 }

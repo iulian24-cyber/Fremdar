@@ -16,13 +16,26 @@ public partial class ShipController : CharacterBody3D
 	Vector2 SmoothedLookDir = Vector2.Zero;
 	Camera3D Camera;
 	Node3D Chair;
-	public StateMachine stateMachine;
+	public StateMachine ShipStateMachine;
+	float Gravity = (float)ProjectSettings.GetSetting("physics/3d/default_gravity");
+	Vector3 GravityVelocity = Vector3.Zero;
 	
 	public override void _Ready()
 	{
 		CaptureMouse();
 		Camera = GetNodeOrNull<Camera3D>("Camera");
 		Chair = GetNodeOrNull<Node3D>("ShipMesh/Chair");
+		ShipStateMachine = GetNodeOrNull<StateMachine>("StateMachine");
+		ShipState[] States = new ShipState[]{
+			new ShipIdleState(),
+			new ShipMovingState(),
+			new ShipStoppedState()
+		};
+		foreach (var state in States)
+		{
+			state.Init(this);
+		}
+		ShipStateMachine.StartMachine(States);
 	}
 	
 	public override void _UnhandledInput(InputEvent @event)
@@ -35,7 +48,7 @@ public partial class ShipController : CharacterBody3D
 	
 	public override void _Process(double delta)
 	{
-		if (Input.IsActionJustPressed("esc"))
+		if (Input.IsActionJustPressed("Esc"))
 		{
 			MouseCaptured = !MouseCaptured;
 			if (!MouseCaptured)
@@ -57,17 +70,16 @@ public partial class ShipController : CharacterBody3D
 			TargetLookDir = TargetLookDir.MoveToward(Vector2.Zero, MouseSmoothness);
 			HandleJoypadCameraRotation(delta);
 		}
-		
 		MoveAndSlide();
 	}
 	
-	public void CaptureMouse()
+	private void CaptureMouse()
 	{
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 		MouseCaptured = true;
 	}
 
-	public void ReleaseMouse()
+	private void ReleaseMouse()
 	{
 		Input.MouseMode = Input.MouseModeEnum.Visible;
 		MouseCaptured = false;
@@ -106,5 +118,19 @@ public partial class ShipController : CharacterBody3D
 			RotateCamera(SensMod);
 			LookDir = Vector2.Zero;
 		}
+	}
+	
+	public Vector3 _Gravity(double delta)
+	{
+		if (IsOnFloor())
+		{
+			GravityVelocity = Vector3.Zero;
+		}
+		else
+		{
+			Vector3 Target = new Vector3(0, Velocity.Y - Gravity, 0);
+			GravityVelocity = GravityVelocity.MoveToward(Target, Gravity * (float)delta);
+		}
+		return GravityVelocity;
 	}
 }
