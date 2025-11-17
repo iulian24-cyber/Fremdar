@@ -35,11 +35,11 @@ public partial class SkyboxController : WorldEnvironment
 			if (Distance <= 0.0f)
 			{
 				ShadowLight.LightEnergy = Distance;
-				Sun.LightEnergy = 1.0f;
+				Sun.LightEnergy = Mathf.Lerp(Sun.LightEnergy, 1.0f, 0.1f);
 			}
 			else
 			{
-				Sun.LightEnergy = 0.0f;
+				Sun.LightEnergy = Mathf.Lerp(Sun.LightEnergy, 0.0f, 0.1f);
 				ShadowLight.LightEnergy = 0.0f;
 			}
 		}

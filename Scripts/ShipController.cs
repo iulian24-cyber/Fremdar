@@ -23,6 +23,8 @@ public partial class ShipController : CharacterBody3D
 	[Export] public float MoveSpeed = 10f;
 	[Export] public float AccelerationSpeed = 15f;
 	[Export] public float RotationSpeed = 2f;
+	[Export] public float Acceleration = 8f;
+	[Export] public float Deceleration = 6f;
 	
 	public override void _Ready()
 	{
@@ -34,7 +36,8 @@ public partial class ShipController : CharacterBody3D
 			new ShipIdleState(),
 			new ShipMovingState(),
 			new ShipStoppedState(),
-			new ShipAcceleratingState()
+			new ShipAcceleratingState(),
+			new ShipAttackedState()
 		};
 		foreach (var state in States)
 		{
@@ -155,17 +158,24 @@ public partial class ShipController : CharacterBody3D
 		Vector3 Forward = -GlobalTransform.Basis.Z;
 		Forward.Y = 0;
 		Forward = Forward.Normalized();
+		Vector3 TargetVel;
 		if (MoveVec.Y != 0f)
 		{
-			Vel.X = Forward.X * MoveVec.Y * MoveSpeed;
-			Vel.Z = Forward.Z * MoveVec.Y * MoveSpeed;
+			TargetVel = Forward * (MoveVec.Y * MoveSpeed);
+			//Vel.X = Forward.X * MoveVec.Y * MoveSpeed;
+			//Vel.Z = Forward.Z * MoveVec.Y * MoveSpeed;
 		}
 		else
 		{
+			TargetVel = Vector3.Zero;
 			// Smooth stop
-			Vel.X = Mathf.Lerp(Vel.X, 0f, (float)delta * 7f);
-			Vel.Z = Mathf.Lerp(Vel.Z, 0f, (float)delta * 7f);
+			//Vel.X = Mathf.Lerp(Vel.X, 0f, (float)delta * 7f);
+			//Vel.Z = Mathf.Lerp(Vel.Z, 0f, (float)delta * 7f);
 		}
+		
+		float Accel = MoveVec.Y != 0f ? Acceleration : Deceleration;
+		Vel = Vel.Lerp(TargetVel, Accel * (float)delta);
+		GD.Print(Vel);
 		return Vel;
 	}
 	

@@ -404,14 +404,14 @@ transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 0, 0)
 [node name="Sunrise&SunsetPoints" type="Node3D" parent="Sky&Environment"]
 
 [node name="SunrisePoint" type="Node3D" parent="Sky&Environment/Sunrise&SunsetPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, 20)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 40)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Sky&Environment/Sunrise&SunsetPoints/SunrisePoint"]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
 mesh = SubResource("SphereMesh_akkqd")
 
 [node name="SunsetPoint" type="Node3D" parent="Sky&Environment/Sunrise&SunsetPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, -20)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 0, -40)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Sky&Environment/Sunrise&SunsetPoints/SunsetPoint"]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
@@ -420,7 +420,7 @@ mesh = SubResource("SphereMesh_8v7by")
 [node name="Floor" type="Node3D" parent="."]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
-transform = Transform3D(20, 0, 0, 0, 1, 0, 0, 0, 20, 0, 0, 0)
+transform = Transform3D(200, 0, 0, 0, 1, 0, 0, 0, 200, 0, 0, 0)
 mesh = SubResource("PlaneMesh_dtjkg")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Floor/MeshInstance3D"]
@@ -430,6 +430,8 @@ shape = SubResource("ConvexPolygonShape3D_xq3o0")
 
 [node name="Cassian 4-62" type="CharacterBody3D" parent="."]
 script = ExtResource("8_1rqgg")
+Acceleration = 4.0
+Deceleration = 2.0
 
 [node name="Collision" type="CollisionShape3D" parent="Cassian 4-62"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.030433655, 1.0656738, 0.6380768)
