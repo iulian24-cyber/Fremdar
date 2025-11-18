@@ -23,6 +23,10 @@ public partial class ShipMovingState : ShipState
 	
 	public override void PhysicsProcess(double delta)
 	{
-		Ship.Velocity = Ship._Gravity(delta) + Ship._Move(delta);
+		Vector3 TargetVelocity = Ship._Gravity(delta) + Ship._Move(delta);
+		if ((TargetVelocity - Ship.Velocity).Length() > 0.01f)
+			Ship.Velocity = Ship.Velocity.Lerp(TargetVelocity, 0.1f);
+		else
+			Ship.Velocity = TargetVelocity;
 	}
 }

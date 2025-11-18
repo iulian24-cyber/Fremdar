@@ -20,11 +20,9 @@ public partial class ShipController : CharacterBody3D
 	float Gravity = (float)ProjectSettings.GetSetting("physics/3d/default_gravity");
 	Vector3 GravityVelocity = Vector3.Zero;
 	Vector2 MoveDir = Vector2.Zero;
-	[Export] public float MoveSpeed = 10f;
+	[Export] public float MovementSpeed = 10f;
 	[Export] public float AccelerationSpeed = 15f;
-	[Export] public float RotationSpeed = 2f;
-	[Export] public float Acceleration = 8f;
-	[Export] public float Deceleration = 6f;
+	[Export] public float RotationSpeed = 1.5f;
 	
 	public override void _Ready()
 	{
@@ -79,6 +77,7 @@ public partial class ShipController : CharacterBody3D
 			HandleJoypadCameraRotation(delta);
 		}
 		MoveAndSlide();
+		GD.Print(Velocity);
 	}
 	
 	private void CaptureMouse()
@@ -158,24 +157,17 @@ public partial class ShipController : CharacterBody3D
 		Vector3 Forward = -GlobalTransform.Basis.Z;
 		Forward.Y = 0;
 		Forward = Forward.Normalized();
-		Vector3 TargetVel;
 		if (MoveVec.Y != 0f)
 		{
-			TargetVel = Forward * (MoveVec.Y * MoveSpeed);
-			//Vel.X = Forward.X * MoveVec.Y * MoveSpeed;
-			//Vel.Z = Forward.Z * MoveVec.Y * MoveSpeed;
+			Vel.X = Forward.X * MoveVec.Y * MovementSpeed;
+			Vel.Z = Forward.Z * MoveVec.Y * MovementSpeed;
 		}
 		else
 		{
-			TargetVel = Vector3.Zero;
 			// Smooth stop
-			//Vel.X = Mathf.Lerp(Vel.X, 0f, (float)delta * 7f);
-			//Vel.Z = Mathf.Lerp(Vel.Z, 0f, (float)delta * 7f);
+			Vel.X = Mathf.Lerp(Vel.X, 0f, (float)delta * 7f);
+			Vel.Z = Mathf.Lerp(Vel.Z, 0f, (float)delta * 7f);
 		}
-		
-		float Accel = MoveVec.Y != 0f ? Acceleration : Deceleration;
-		Vel = Vel.Lerp(TargetVel, Accel * (float)delta);
-		GD.Print(Vel);
 		return Vel;
 	}
 	

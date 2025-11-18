@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=4 uid="uid://bbqet3xhwid2t"]
+[gd_scene load_steps=47 format=4 uid="uid://bbqet3xhwid2t"]
 
 [ext_resource type="Shader" uid="uid://b0qaje0l28xsb" path="res://Shaders/skybox.gdshader" id="1_dtjkg"]
 [ext_resource type="Script" uid="uid://cti7tqd63acfo" path="res://Scripts/SkyboxController.cs" id="1_iti4p"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://bpoema8bai874" path="res://Models/Cassian 4-62/ship_ship_metal-ship_rough.png" id="9_8v7by"]
 [ext_resource type="Texture2D" uid="uid://drrydvyuxuvhi" path="res://Models/Cassian 4-62/ship_ship_normal.png" id="10_1rqgg"]
 [ext_resource type="Script" uid="uid://dy7fanywnrn1g" path="res://Scripts/StateMachine.cs" id="11_8v7by"]
+[ext_resource type="PackedScene" uid="uid://d0nw5ofl7ullw" path="res://Models/Alien/alien.tscn" id="13_mwmob"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dtjkg"]
 shader = ExtResource("1_dtjkg")
@@ -60,7 +61,7 @@ material = SubResource("StandardMaterial3D_8v7by")
 points = PackedVector3Array(-1, 0, -1, -1, 0, 1, 1, 0, -1, 1, 0, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8v7by"]
-size = Vector3(3.6879425, 2.1313477, 7.44046)
+size = Vector3(3.6879425, 2.2503052, 7.44046)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2wfjg"]
 resource_name = "ship"
@@ -382,6 +383,11 @@ shadow_mesh = SubResource("ArrayMesh_feh8a")
 [sub_resource type="BoxShape3D" id="BoxShape3D_akkqd"]
 size = Vector3(8, 2.0518188, 11)
 
+[sub_resource type="BoxMesh" id="BoxMesh_1rqgg"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_1rqgg"]
+points = PackedVector3Array(0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5)
+
 [node name="test_level" type="Node3D"]
 
 [node name="Sky&Environment" type="Node3D" parent="."]
@@ -429,12 +435,11 @@ mesh = SubResource("PlaneMesh_dtjkg")
 shape = SubResource("ConvexPolygonShape3D_xq3o0")
 
 [node name="Cassian 4-62" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 script = ExtResource("8_1rqgg")
-Acceleration = 4.0
-Deceleration = 2.0
 
 [node name="Collision" type="CollisionShape3D" parent="Cassian 4-62"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.030433655, 1.0656738, 0.6380768)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03, 0.6405213, 0.638)
 shape = SubResource("BoxShape3D_8v7by")
 debug_color = Color(0, 16.427145, 18.892157, 1)
 
@@ -515,3 +520,44 @@ shape = SubResource("BoxShape3D_akkqd")
 script = ExtResource("11_8v7by")
 IsLogEnabled = true
 metadata/_custom_type_script = "uid://dy7fanywnrn1g"
+
+[node name="Buildings" type="Node3D" parent="."]
+
+[node name="Building" type="Node3D" parent="Buildings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -20)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Buildings/Building"]
+transform = Transform3D(3, 0, 0, 0, 5, 0, 0, 0, 3, 0, 2.5, 0)
+mesh = SubResource("BoxMesh_1rqgg")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Buildings/Building/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Buildings/Building/MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_1rqgg")
+
+[node name="Building2" type="Node3D" parent="Buildings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, -13)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Buildings/Building2"]
+transform = Transform3D(3, 0, 0, 0, 5, 0, 0, 0, 3, 0, 2.5, 0)
+mesh = SubResource("BoxMesh_1rqgg")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Buildings/Building2/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Buildings/Building2/MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_1rqgg")
+
+[node name="Building3" type="Node3D" parent="Buildings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -9)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Buildings/Building3"]
+transform = Transform3D(3, 0, 0, 0, 5, 0, 0, 0, 3, 0, 2.5, 0)
+mesh = SubResource("BoxMesh_1rqgg")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Buildings/Building3/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Buildings/Building3/MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_1rqgg")
+
+[node name="Alien" parent="." instance=ExtResource("13_mwmob")]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 0, 0, 13.988842)
