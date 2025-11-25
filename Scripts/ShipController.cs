@@ -22,7 +22,9 @@ public partial class ShipController : CharacterBody3D
 	Vector2 MoveDir = Vector2.Zero;
 	[Export] public float MovementSpeed = 10f;
 	[Export] public float AccelerationSpeed = 15f;
-	[Export] public float RotationSpeed = 1.5f;
+	[Export] public float RotationSpeed = 0.03f;
+	float CurrentSmoothRotation = 0.0f;
+	float RotationLastInput = 0f;
 	
 	public override void _Ready()
 	{
@@ -77,7 +79,7 @@ public partial class ShipController : CharacterBody3D
 			HandleJoypadCameraRotation(delta);
 		}
 		MoveAndSlide();
-		GD.Print(Velocity);
+		//GD.Print(Velocity);
 	}
 	
 	private void CaptureMouse()
@@ -127,12 +129,37 @@ public partial class ShipController : CharacterBody3D
 		}
 	}
 	
+	public void _Rotation(double delta)
+	{
+		float TurnInput = 0f;
+		if (Input.IsActionPressed("MoveLeft")) TurnInput = 1f;
+		if (Input.IsActionPressed("MoveRight")) TurnInput = -1f;
+		if (TurnInput != 0f && Input.IsActionPressed("MoveLeft") != Input.IsActionPressed("MoveRight"))
+		{
+			if ((Input.IsActionJustPressed("MoveLeft") || Input.IsActionJustPressed("MoveRight")))
+				CurrentSmoothRotation = 0.25f * CurrentSmoothRotation;
+			else
+			{
+				Rotation = Rotation with { Y = Rotation.Y + TurnInput * CurrentSmoothRotation };
+				CurrentSmoothRotation = Mathf.Lerp(CurrentSmoothRotation, RotationSpeed, (float)delta * 0.8f);
+				RotationLastInput = TurnInput;
+				if (RotationSpeed - CurrentSmoothRotation < 0.001f)
+					CurrentSmoothRotation = RotationSpeed;
+			}
+		}
+		else
+		{
+			Rotation = Rotation with { Y = Rotation.Y + RotationLastInput * CurrentSmoothRotation };
+			CurrentSmoothRotation = Mathf.Lerp(CurrentSmoothRotation, 0.0f, (float)delta * 12f);
+			if (CurrentSmoothRotation < 0.001f)
+				CurrentSmoothRotation = 0.0f;
+		}
+	}
+	
 	public Vector3 _Gravity(double delta)
 	{
 		if (IsOnFloor())
-		{
 			GravityVelocity = Vector3.Zero;
-		}
 		else
 		{
 			Vector3 Target = new Vector3(0, Velocity.Y - Gravity, 0);
@@ -150,10 +177,6 @@ public partial class ShipController : CharacterBody3D
 			"MoveDown",    // positive Y
 			"MoveUp"   // negative Y
 		);
-		float TurnSign = MoveVec.Y >= 0f ? 1f : -1f;  // Reverse steering
-		float FinalTurnInput = MoveVec.X * TurnSign; // When backwards
-		if (FinalTurnInput != 0f)
-			Rotation = Rotation with { Y = Rotation.Y + FinalTurnInput * RotationSpeed * (float)delta };
 		Vector3 Forward = -GlobalTransform.Basis.Z;
 		Forward.Y = 0;
 		Forward = Forward.Normalized();
@@ -180,10 +203,6 @@ public partial class ShipController : CharacterBody3D
 			"MoveDown",    // positive Y
 			"MoveUp"   // negative Y
 		);
-		float TurnSign = MoveVec.Y >= 0f ? 1f : -1f;  // Reverse steering
-		float FinalTurnInput = MoveVec.X * TurnSign; // When backwards
-		if (FinalTurnInput != 0f)
-			Rotation = Rotation with { Y = Rotation.Y + FinalTurnInput * RotationSpeed * (float)delta };
 		Vector3 Forward = -GlobalTransform.Basis.Z;
 		Forward.Y = 0;
 		Forward = Forward.Normalized();

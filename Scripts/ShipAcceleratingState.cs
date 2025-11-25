@@ -31,5 +31,6 @@ public partial class ShipAcceleratingState : ShipState
 			Ship.Velocity = Ship.Velocity.Lerp(TargetVelocity, 0.1f);
 		else
 			Ship.Velocity = TargetVelocity;
+		Ship._Rotation(delta);
 	}
 }
