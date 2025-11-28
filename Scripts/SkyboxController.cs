@@ -17,6 +17,7 @@ public partial class SkyboxController : WorldEnvironment
 		A = GetParent()?.GetNodeOrNull<Node3D>("Sunrise&SunsetPoints/SunrisePoint"); // Sunrise Point {-1}
 		B = GetParent()?.GetNodeOrNull<Node3D>("Sunrise&SunsetPoints/SunsetPoint"); // Sunset Point {+1}
 		C = GetParent()?.GetParent()?.GetNodeOrNull<CharacterBody3D>("Cassian 4-62"); // Ship Point
+		ShadowLight.LightNegative = true;
 	}
 	
 	public override void _Process(double delta)
