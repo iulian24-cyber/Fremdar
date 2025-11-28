@@ -32,5 +32,6 @@ public partial class ShipAcceleratingState : ShipState
 		else
 			Ship.Velocity = TargetVelocity;
 		Ship._Rotation(delta);
+		Ship._BodyRotation(delta);
 	}
 }

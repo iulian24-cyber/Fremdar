@@ -29,5 +29,6 @@ public partial class ShipMovingState : ShipState
 		else
 			Ship.Velocity = TargetVelocity;
 		Ship._Rotation(delta);
+		Ship._BodyRotation(delta);
 	}
 }

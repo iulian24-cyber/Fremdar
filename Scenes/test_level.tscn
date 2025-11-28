@@ -443,76 +443,78 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03, 0.6405213, 0.638)
 shape = SubResource("BoxShape3D_8v7by")
 debug_color = Color(0, 16.427145, 18.892157, 1)
 
-[node name="Camera" type="Camera3D" parent="Cassian 4-62"]
+[node name="Moveables" type="Node3D" parent="Cassian 4-62"]
+
+[node name="Camera" type="Camera3D" parent="Cassian 4-62/Moveables"]
 transform = Transform3D(1, 0, 1.7484555e-07, 0, 1, 0, -1.7484555e-07, 0, 1, 0, 1.2, 0.5)
 far = 100.0
 
-[node name="ShipMesh" type="Node3D" parent="Cassian 4-62"]
+[node name="ShipMesh" type="Node3D" parent="Cassian 4-62/Moveables"]
 
-[node name="Chair" type="Node3D" parent="Cassian 4-62/ShipMesh"]
+[node name="Chair" type="Node3D" parent="Cassian 4-62/Moveables/ShipMesh"]
 transform = Transform3D(1, 0, 1.7484555e-07, 0, 1, 0, -1.7484555e-07, 0, 1, 0, 0, 0.50245464)
 
-[node name="chair" type="MeshInstance3D" parent="Cassian 4-62/ShipMesh/Chair"]
+[node name="chair" type="MeshInstance3D" parent="Cassian 4-62/Moveables/ShipMesh/Chair"]
 transform = Transform3D(0.01, 0, 0, 0, 0, -0.01, 0, 0.01, 0, 8.785196e-08, 0, -0.50245464)
 mesh = SubResource("ArrayMesh_pwt6u")
 skeleton = NodePath("")
 
-[node name="Accelerator" type="Node3D" parent="Cassian 4-62/ShipMesh/Chair"]
+[node name="Accelerator" type="Node3D" parent="Cassian 4-62/Moveables/ShipMesh/Chair"]
 transform = Transform3D(1, 0, -1.7484555e-07, 0, 1, 0, 1.7484555e-07, 0, 1, 8.785196e-08, 0, -0.50245464)
 
-[node name="accel_move" type="MeshInstance3D" parent="Cassian 4-62/ShipMesh/Chair/Accelerator"]
+[node name="accel_move" type="MeshInstance3D" parent="Cassian 4-62/Moveables/ShipMesh/Chair/Accelerator"]
 transform = Transform3D(0.01, 0, 0, 0, 0, -0.01, 0, 0.01, 0, 0, 0, 0)
 mesh = SubResource("ArrayMesh_40b1u")
 skeleton = NodePath("")
 
-[node name="engine_stop" type="MeshInstance3D" parent="Cassian 4-62/ShipMesh/Chair/Accelerator"]
+[node name="engine_stop" type="MeshInstance3D" parent="Cassian 4-62/Moveables/ShipMesh/Chair/Accelerator"]
 transform = Transform3D(0.01, 0, 0, 0, 0, -0.01, 0, 0.01, 0, 0, 0, 0)
 mesh = SubResource("ArrayMesh_rn04s")
 skeleton = NodePath("")
 
-[node name="accel_base" type="MeshInstance3D" parent="Cassian 4-62/ShipMesh/Chair/Accelerator"]
+[node name="accel_base" type="MeshInstance3D" parent="Cassian 4-62/Moveables/ShipMesh/Chair/Accelerator"]
 transform = Transform3D(0.01, 0, 0, 0, 0, -0.01, 0, 0.01, 0, 0, 0, 0)
 mesh = SubResource("ArrayMesh_aok3e")
 skeleton = NodePath("")
 
-[node name="Joystick" type="Node3D" parent="Cassian 4-62/ShipMesh/Chair"]
+[node name="Joystick" type="Node3D" parent="Cassian 4-62/Moveables/ShipMesh/Chair"]
 transform = Transform3D(1, 0, -1.7484555e-07, 0, 1, 0, 1.7484555e-07, 0, 1, 8.785196e-08, 0, -0.50245464)
 
-[node name="joystick_base" type="MeshInstance3D" parent="Cassian 4-62/ShipMesh/Chair/Joystick"]
+[node name="joystick_base" type="MeshInstance3D" parent="Cassian 4-62/Moveables/ShipMesh/Chair/Joystick"]
 transform = Transform3D(0.01, 0, 0, 0, 0, -0.01, 0, 0.01, 0, 0, 0, 0)
 mesh = SubResource("ArrayMesh_brm4j")
 skeleton = NodePath("")
 
-[node name="JoystickStick" type="Node3D" parent="Cassian 4-62/ShipMesh/Chair/Joystick"]
+[node name="JoystickStick" type="Node3D" parent="Cassian 4-62/Moveables/ShipMesh/Chair/Joystick"]
 transform = Transform3D(1, 0, 1.7484555e-07, 0, 1, 0, -1.7484555e-07, 0, 1, 0.38569582, 0.6016475, -0.022270456)
 
-[node name="joystick_stick" type="MeshInstance3D" parent="Cassian 4-62/ShipMesh/Chair/Joystick/JoystickStick"]
+[node name="joystick_stick" type="MeshInstance3D" parent="Cassian 4-62/Moveables/ShipMesh/Chair/Joystick/JoystickStick"]
 transform = Transform3D(0.01, -1.7484555e-09, 7.642742e-17, 0, -4.3711387e-10, -0.01, 1.7484555e-09, 0.01, -4.3711387e-10, -0.38569582, -0.6016475, 0.022270389)
 mesh = SubResource("ArrayMesh_abig0")
 skeleton = NodePath("")
 
-[node name="Misc" type="Node3D" parent="Cassian 4-62/ShipMesh"]
+[node name="Misc" type="Node3D" parent="Cassian 4-62/Moveables/ShipMesh"]
 
-[node name="ship" type="MeshInstance3D" parent="Cassian 4-62/ShipMesh/Misc"]
+[node name="ship" type="MeshInstance3D" parent="Cassian 4-62/Moveables/ShipMesh/Misc"]
 transform = Transform3D(0.01, 0, 0, 0, 0, -0.01, 0, 0.01, 0, 0, 0, 0)
 mesh = SubResource("ArrayMesh_suhx0")
 skeleton = NodePath("")
 
-[node name="glass" type="MeshInstance3D" parent="Cassian 4-62/ShipMesh/Misc"]
+[node name="glass" type="MeshInstance3D" parent="Cassian 4-62/Moveables/ShipMesh/Misc"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.009361422, 0)
 mesh = SubResource("ArrayMesh_mn5vq")
 skeleton = NodePath("")
 surface_material_override/0 = SubResource("StandardMaterial3D_1rqgg")
 
-[node name="books" type="MeshInstance3D" parent="Cassian 4-62/ShipMesh/Misc"]
+[node name="books" type="MeshInstance3D" parent="Cassian 4-62/Moveables/ShipMesh/Misc"]
 mesh = SubResource("ArrayMesh_auh34")
 skeleton = NodePath("")
 
-[node name="ShipNearArea" type="Node3D" parent="Cassian 4-62"]
+[node name="ShipNearArea" type="Node3D" parent="Cassian 4-62/Moveables"]
 
-[node name="Area3D" type="Area3D" parent="Cassian 4-62/ShipNearArea"]
+[node name="Area3D" type="Area3D" parent="Cassian 4-62/Moveables/ShipNearArea"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Cassian 4-62/ShipNearArea/Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Cassian 4-62/Moveables/ShipNearArea/Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.12267506, 1, 1.0024321)
 shape = SubResource("BoxShape3D_akkqd")
 

@@ -9,7 +9,7 @@ public partial class ShipController : CharacterBody3D
 	[Export(PropertyHint.Range, "0.1,6.0,0.1")]
 	float CameraSensitivity { get; set; } = 3.2f;
 	[Export(PropertyHint.Range, "1.0,12.0,1.0")]
-	float ChairSmoothness { get; set; } = 6.0f; // Lower is smoother
+	float ChairSmoothness { get; set; } = 6f; // Lower is smoother
 	bool MouseCaptured = false;
 	Vector2 LookDir = Vector2.Zero;
 	Vector2 TargetLookDir = Vector2.Zero;
@@ -23,15 +23,19 @@ public partial class ShipController : CharacterBody3D
 	[Export] public float MovementSpeed = 10f;
 	[Export] public float AccelerationSpeed = 15f;
 	[Export] public float RotationSpeed = 0.03f;
-	float CurrentSmoothRotation = 0.0f;
+	float CurrentSmoothRotation = 0f;
 	float RotationLastInput = 0f;
+	Node3D Moveables;
+	float CurrentMoveableX = 0f;
+	float CurrentMoveableZ = 0f;
 	
 	public override void _Ready()
 	{
 		CaptureMouse();
-		Camera = GetNodeOrNull<Camera3D>("Camera");
-		Chair = GetNodeOrNull<Node3D>("ShipMesh/Chair");
+		Camera = GetNodeOrNull<Camera3D>("Moveables/Camera");
+		Chair = GetNodeOrNull<Node3D>("Moveables/ShipMesh/Chair");
 		ShipStateMachine = GetNodeOrNull<StateMachine>("StateMachine");
+		Moveables = GetNodeOrNull<Node3D>("Moveables");
 		ShipState[] States = new ShipState[]{
 			new ShipIdleState(),
 			new ShipMovingState(),
@@ -79,7 +83,6 @@ public partial class ShipController : CharacterBody3D
 			HandleJoypadCameraRotation(delta);
 		}
 		MoveAndSlide();
-		//GD.Print(Velocity);
 	}
 	
 	private void CaptureMouse()
@@ -129,30 +132,105 @@ public partial class ShipController : CharacterBody3D
 		}
 	}
 	
+	// Functions to be executed in States
+	
 	public void _Rotation(double delta)
 	{
 		float TurnInput = 0f;
 		if (Input.IsActionPressed("MoveLeft")) TurnInput = 1f;
 		if (Input.IsActionPressed("MoveRight")) TurnInput = -1f;
-		if (TurnInput != 0f && Input.IsActionPressed("MoveLeft") != Input.IsActionPressed("MoveRight"))
+		if (TurnInput != 0f && Input.IsActionPressed("MoveLeft") != Input.IsActionPressed("MoveRight") && !(Input.IsActionJustReleased("MoveLeft") && Input.IsActionJustPressed("MoveRight")) && !(Input.IsActionJustReleased("MoveRight") && Input.IsActionJustPressed("MoveLeft")))
 		{
-			if ((Input.IsActionJustPressed("MoveLeft") || Input.IsActionJustPressed("MoveRight")))
-				CurrentSmoothRotation = 0.25f * CurrentSmoothRotation;
-			else
-			{
-				Rotation = Rotation with { Y = Rotation.Y + TurnInput * CurrentSmoothRotation };
-				CurrentSmoothRotation = Mathf.Lerp(CurrentSmoothRotation, RotationSpeed, (float)delta * 0.8f);
-				RotationLastInput = TurnInput;
-				if (RotationSpeed - CurrentSmoothRotation < 0.001f)
-					CurrentSmoothRotation = RotationSpeed;
-			}
+			Rotation = Rotation with { Y = Rotation.Y + TurnInput * CurrentSmoothRotation };
+			CurrentSmoothRotation = Mathf.Lerp(CurrentSmoothRotation, RotationSpeed, (float)delta * 1f);
+			RotationLastInput = TurnInput;
+			if (RotationSpeed - CurrentSmoothRotation < 0.001f)
+				CurrentSmoothRotation = RotationSpeed;
 		}
 		else
 		{
 			Rotation = Rotation with { Y = Rotation.Y + RotationLastInput * CurrentSmoothRotation };
-			CurrentSmoothRotation = Mathf.Lerp(CurrentSmoothRotation, 0.0f, (float)delta * 12f);
+			CurrentSmoothRotation = Mathf.Lerp(CurrentSmoothRotation, 0f, (float)delta * 72f);
 			if (CurrentSmoothRotation < 0.001f)
 				CurrentSmoothRotation = 0.0f;
+		}
+		GD.Print(CurrentSmoothRotation);
+	}
+	
+	public void _BodyRotation(double delta)
+	{
+		Vector2 MoveVec = Input.GetVector(
+			"MoveRight", "MoveLeft", // X RIGHT = -1, LEFT = 1
+			"MoveDown", "MoveUp"   // Y DOWN = 1, UP = -1 
+		);
+		if (MoveVec.X != 0 || MoveVec.Y != 0) 
+		{
+			// left/right
+			if (MoveVec.X != 0)
+			{
+				if (MoveVec.X < 0 && CurrentMoveableZ != -0.1f)
+				{
+					CurrentMoveableZ = Mathf.Lerp(CurrentMoveableZ, -0.1f, (float)delta);
+					if (CurrentMoveableZ + 0.1f < 0.0001f)
+						CurrentMoveableZ = -0.1f;
+					Moveables.Rotation = Moveables.Rotation with { Z = CurrentMoveableZ };
+				}
+				else if (MoveVec.X > 0 && CurrentMoveableZ != 0.1f)
+				{
+					CurrentMoveableZ = Mathf.Lerp(CurrentMoveableZ, 0.1f, (float)delta);
+					if (0.1f - CurrentMoveableZ < 0.0001f)
+						CurrentMoveableZ = 0.1f;
+					Moveables.Rotation = Moveables.Rotation with { Z = CurrentMoveableZ };
+				}
+			}
+			else if (CurrentMoveableZ != 0f)
+			{
+				CurrentMoveableZ = Mathf.Lerp(CurrentMoveableZ, 0f, (float)delta);
+				if (CurrentMoveableZ > -0.0001f && CurrentMoveableZ < 0.0001f)
+					CurrentMoveableZ = 0f;
+				Moveables.Rotation = Moveables.Rotation with { Z = CurrentMoveableZ };
+			}
+			// up/down
+			if (MoveVec.Y != 0)
+			{
+				if (MoveVec.Y < 0 && CurrentMoveableX != 0.07f)
+				{
+					CurrentMoveableX = Mathf.Lerp(CurrentMoveableX, 0.07f, (float)delta);
+					if (0.07f - CurrentMoveableX < 0.0001f)
+						CurrentMoveableX = 0.07f;
+					Moveables.Rotation = Moveables.Rotation with { X = CurrentMoveableX };
+				}
+				else if (MoveVec.Y > 0 && CurrentMoveableX != -0.1f)
+				{
+					CurrentMoveableX = Mathf.Lerp(CurrentMoveableX, -0.1f, (float)delta);
+					if (CurrentMoveableX + 0.1f < 0.0001f)
+						CurrentMoveableX = -0.1f;
+					Moveables.Rotation = Moveables.Rotation with { X = CurrentMoveableX };
+				}
+			}
+			else if (CurrentMoveableX != 0f)
+			{
+				CurrentMoveableX = Mathf.Lerp(CurrentMoveableX, 0f, (float)delta);
+				if (CurrentMoveableX > -0.0001f && CurrentMoveableX < 0.0001f)
+					CurrentMoveableX = 0f;
+				Moveables.Rotation = Moveables.Rotation with { X = CurrentMoveableX };
+			}
+		}
+		else if (CurrentMoveableZ != 0f || CurrentMoveableX != 0f)
+		{
+			if (CurrentMoveableZ != 0f)
+			{
+				CurrentMoveableZ = Mathf.Lerp(CurrentMoveableZ, 0f, (float)delta);
+				if (CurrentMoveableZ > -0.0001f && CurrentMoveableZ < 0.0001f)
+					CurrentMoveableZ = 0f;
+			}
+			if (CurrentMoveableX != 0f)
+			{
+				CurrentMoveableX = Mathf.Lerp(CurrentMoveableX, 0f, (float)delta);
+				if (CurrentMoveableX > -0.0001f && CurrentMoveableX < 0.0001f)
+					CurrentMoveableX = 0f;
+			}
+			Moveables.Rotation = new Vector3(CurrentMoveableX, Moveables.Rotation.Y, CurrentMoveableZ);
 		}
 	}
 	
