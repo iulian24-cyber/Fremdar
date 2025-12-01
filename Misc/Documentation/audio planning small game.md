@@ -4,7 +4,7 @@ audio planning small game
 
 **AUDIO FILE WORKFLOW**
 
-Audio Assets ---> Sound Design (Digital Audio Workframe) ---> Bank Files (Wwise) ---> (GODOT) 
+Audio Assets ---> Sound Design (Digital Audio Workframe) ---> Bank Files (Wwise) ---> (GODOT)
 
 
 
@@ -26,7 +26,7 @@ ENVIRONMENT
 
 SHIP
 
-\-ship movement "engine" \[1 sound]
+-ship movement "engine" \[1 sound]
 
 -accelerator \[1 sound]
 
@@ -40,8 +40,6 @@ MARTIANS
 
 -combat hits (punches, kicks) \[3-4 sounds]
 
--blabbering? \[?]
-
 
 
 **MUSIC**
@@ -49,4 +47,6 @@ MARTIANS
 
 
 musical atmosphere
+
+a bifat andrei una
 

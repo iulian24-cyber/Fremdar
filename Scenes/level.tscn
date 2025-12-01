@@ -1,0 +1,148 @@
+[gd_scene load_steps=22 format=3 uid="uid://bbqet3xhwid2t"]
+
+[ext_resource type="Script" uid="uid://copsnw1grdx87" path="res://Scripts/Level.cs" id="1_oqgf2"]
+[ext_resource type="Shader" uid="uid://b0qaje0l28xsb" path="res://Shaders/skybox.gdshader" id="2_qxfql"]
+[ext_resource type="CompressedCubemap" uid="uid://dlchi582da0r7" path="res://Models/Sky/moon_color_cubemap.jpg" id="3_ha31o"]
+[ext_resource type="CompressedCubemap" uid="uid://cs5cljwxnhp1p" path="res://Models/Sky/star_color_cubemap.png" id="4_pa6b8"]
+[ext_resource type="Texture2D" uid="uid://baihe8gulalo0" path="res://Models/Sky/sun_view_gradient.png" id="5_crh0w"]
+[ext_resource type="Texture2D" uid="uid://dgx5l87jkqpf2" path="res://Models/Sky/sun_zenith_gradient.png" id="6_c7le1"]
+[ext_resource type="Texture2D" uid="uid://dfu7yo6ghmlne" path="res://Models/Sky/view_zenith_gradient.png" id="7_2klc5"]
+[ext_resource type="Script" uid="uid://cti7tqd63acfo" path="res://Scripts/SkyboxController.cs" id="8_nngtn"]
+[ext_resource type="PackedScene" uid="uid://bgxa1u82660yr" path="res://Models/Cassian 4-62/cassian_4_62.tscn" id="9_vofx3"]
+[ext_resource type="PackedScene" uid="uid://d0nw5ofl7ullw" path="res://Models/Alien/alien.tscn" id="10_00k4y"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dtjkg"]
+shader = ExtResource("2_qxfql")
+shader_parameter/sun_dir = Vector3(0, 0, 1)
+shader_parameter/moon_dir = Vector3(0, 0, 1)
+shader_parameter/sun_zenith_gradient = ExtResource("6_c7le1")
+shader_parameter/view_zenith_gradient = ExtResource("7_2klc5")
+shader_parameter/sun_view_gradient = ExtResource("5_crh0w")
+shader_parameter/sun_radius = 0.05
+shader_parameter/sun_color = Color(1, 1, 1, 1)
+shader_parameter/moon_radius = 0.05
+shader_parameter/moon_exposure = 0.0
+shader_parameter/moon_cubemap = ExtResource("3_ha31o")
+shader_parameter/moon_world_to_object = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
+shader_parameter/star_cubemap = ExtResource("4_pa6b8")
+shader_parameter/star_exposure = 0.0
+shader_parameter/star_power = 1.0
+shader_parameter/star_latitude = 0.0
+shader_parameter/star_speed = 0.001
+
+[sub_resource type="Sky" id="Sky_eglq2"]
+sky_material = SubResource("ShaderMaterial_dtjkg")
+
+[sub_resource type="Environment" id="Environment_dtjkg"]
+background_mode = 2
+sky = SubResource("Sky_eglq2")
+tonemap_mode = 2
+volumetric_fog_density = 0.007
+volumetric_fog_sky_affect = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_akkqd"]
+albedo_color = Color(1, 1, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_akkqd"]
+material = SubResource("StandardMaterial3D_akkqd")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8v7by"]
+albedo_color = Color(0, 0, 1, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_8v7by"]
+material = SubResource("StandardMaterial3D_8v7by")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_dtjkg"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_xq3o0"]
+points = PackedVector3Array(-1, 0, -1, -1, 0, 1, 1, 0, -1, 1, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_1rqgg"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_1rqgg"]
+points = PackedVector3Array(0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5)
+
+[node name="Level" type="Node3D"]
+script = ExtResource("1_oqgf2")
+
+[node name="Sky&Environment" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Sky&Environment"]
+environment = SubResource("Environment_dtjkg")
+script = ExtResource("8_nngtn")
+
+[node name="Sun" type="DirectionalLight3D" parent="Sky&Environment"]
+
+[node name="Moon" type="Node3D" parent="Sky&Environment"]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Sunrise&SunsetPoints" type="Node3D" parent="Sky&Environment"]
+
+[node name="SunrisePoint" type="Node3D" parent="Sky&Environment/Sunrise&SunsetPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 40)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Sky&Environment/Sunrise&SunsetPoints/SunrisePoint"]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+mesh = SubResource("SphereMesh_akkqd")
+
+[node name="SunsetPoint" type="Node3D" parent="Sky&Environment/Sunrise&SunsetPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 0, -40)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Sky&Environment/Sunrise&SunsetPoints/SunsetPoint"]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+mesh = SubResource("SphereMesh_8v7by")
+
+[node name="Floor" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+transform = Transform3D(200, 0, 0, 0, 1, 0, 0, 0, 200, 0, 0, 0)
+mesh = SubResource("PlaneMesh_dtjkg")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Floor/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_xq3o0")
+
+[node name="Cassian 4-62" parent="." instance=ExtResource("9_vofx3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="Buildings" type="Node3D" parent="."]
+
+[node name="Building" type="Node3D" parent="Buildings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -20)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Buildings/Building"]
+transform = Transform3D(3, 0, 0, 0, 5, 0, 0, 0, 3, 0, 2.5, 0)
+mesh = SubResource("BoxMesh_1rqgg")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Buildings/Building/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Buildings/Building/MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_1rqgg")
+
+[node name="Building2" type="Node3D" parent="Buildings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, -13)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Buildings/Building2"]
+transform = Transform3D(3, 0, 0, 0, 5, 0, 0, 0, 3, 0, 2.5, 0)
+mesh = SubResource("BoxMesh_1rqgg")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Buildings/Building2/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Buildings/Building2/MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_1rqgg")
+
+[node name="Building3" type="Node3D" parent="Buildings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -9)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Buildings/Building3"]
+transform = Transform3D(3, 0, 0, 0, 5, 0, 0, 0, 3, 0, 2.5, 0)
+mesh = SubResource("BoxMesh_1rqgg")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Buildings/Building3/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Buildings/Building3/MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_1rqgg")
+
+[node name="Alien" parent="." instance=ExtResource("10_00k4y")]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 0, 0, 13.988842)

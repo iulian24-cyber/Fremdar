@@ -1,0 +1,25 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://d2mjxm5usvgse"]
+
+[ext_resource type="Shader" uid="uid://cicej4fbg6kue" path="res://Shaders/windy.gdshader" id="1_25hai"]
+[ext_resource type="Texture2D" uid="uid://b8614dgnivy5x" path="res://Models/Trees/Imported/tree_leaves.png" id="2_a2gi7"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_25hai")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/texture_albedo = ExtResource("2_a2gi7")
+shader_parameter/roughness = 0.50000002375
+shader_parameter/metallic_texture_channel = Vector4(0, 0, 0, 0)
+shader_parameter/specular = 0.0
+shader_parameter/metallic = 0.0
+shader_parameter/normal_scale = 1.0
+shader_parameter/emission_strength = 0.0
+shader_parameter/enable_wind = true
+shader_parameter/wind_type = 0
+shader_parameter/wind_strength = 0.10000000475
+shader_parameter/wind_speed = 1.0
+shader_parameter/wind_frequency = 2.0
+shader_parameter/wind_direction = Vector2(1, 0)
+shader_parameter/enable_fade = false
+shader_parameter/fade_start_distance = 50.0
+shader_parameter/fade_length = 20.0

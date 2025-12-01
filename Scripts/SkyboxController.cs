@@ -3,7 +3,7 @@ using System;
 
 public partial class SkyboxController : WorldEnvironment
 {
-	DirectionalLight3D Sun, ShadowLight;
+	DirectionalLight3D Sun;
 	Node3D A, B, C;
 	Node3D Moon;
 	float SunDegrees = 0.0f;
@@ -13,11 +13,9 @@ public partial class SkyboxController : WorldEnvironment
 	{
 		Sun = GetParent()?.GetNodeOrNull<DirectionalLight3D>("Sun");
 		Moon = GetParent()?.GetNodeOrNull<Node3D>("Moon");
-		ShadowLight = GetParent()?.GetNodeOrNull<DirectionalLight3D>("ShadowLight");
 		A = GetParent()?.GetNodeOrNull<Node3D>("Sunrise&SunsetPoints/SunrisePoint"); // Sunrise Point {-1}
 		B = GetParent()?.GetNodeOrNull<Node3D>("Sunrise&SunsetPoints/SunsetPoint"); // Sunset Point {+1}
 		C = GetParent()?.GetParent()?.GetNodeOrNull<CharacterBody3D>("Cassian 4-62"); // Ship Point
-		ShadowLight.LightNegative = true;
 	}
 	
 	public override void _Process(double delta)
@@ -34,15 +32,9 @@ public partial class SkyboxController : WorldEnvironment
 			Sun.Transform = T;
 			Moon.Transform = Sun.Transform.Inverse();
 			if (Distance <= 0.0f)
-			{
-				ShadowLight.LightEnergy = Distance;
 				Sun.LightEnergy = Mathf.Lerp(Sun.LightEnergy, 1.0f, 0.1f);
-			}
 			else
-			{
 				Sun.LightEnergy = Mathf.Lerp(Sun.LightEnergy, 0.0f, 0.1f);
-				ShadowLight.LightEnergy = 0.0f;
-			}
 		}
 		
 		// Skybox Shader Parameters

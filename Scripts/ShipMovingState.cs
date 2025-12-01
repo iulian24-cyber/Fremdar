@@ -17,17 +17,18 @@ public partial class ShipMovingState : ShipState
 			ShipStateMachine.Transition(ShipIdleState.StateName);
 		if (Godot.Input.IsActionPressed("Shift"))
 			ShipStateMachine.Transition(ShipAcceleratingState.StateName);
-		if (Godot.Input.IsActionJustPressed("E"))
-			ShipStateMachine.Transition(ShipStoppedState.StateName);	
 	}
 	
 	public override void PhysicsProcess(double delta)
 	{
 		Vector3 TargetVelocity = Ship._Gravity(delta) + Ship._Move(delta);
-		if ((TargetVelocity - Ship.Velocity).Length() > 0.01f)
-			Ship.Velocity = Ship.Velocity.Lerp(TargetVelocity, 0.1f);
-		else
-			Ship.Velocity = TargetVelocity;
+		if (Ship.Velocity != TargetVelocity)
+		{
+			if ((TargetVelocity - Ship.Velocity).Length() > 0.01f)
+				Ship.Velocity = Ship.Velocity.Lerp(TargetVelocity, 0.1f);
+			else
+				Ship.Velocity = TargetVelocity;
+		}
 		Ship._Rotation(delta);
 		Ship._BodyRotation(delta);
 	}

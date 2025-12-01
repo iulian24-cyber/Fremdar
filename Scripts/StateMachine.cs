@@ -10,7 +10,7 @@ public partial class StateMachine : Node
 	public bool IsRunning { get; private set; } = false;
 	public bool PlayerInCrouchingArea { get; private set; } = false;
 
-	private State _currentState;
+	public State _currentState;
 	private readonly Dictionary<string, State> _states = new();
 	private string _parentNodeName = "";
 

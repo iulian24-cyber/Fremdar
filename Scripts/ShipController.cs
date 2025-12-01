@@ -37,9 +37,9 @@ public partial class ShipController : CharacterBody3D
 		ShipStateMachine = GetNodeOrNull<StateMachine>("StateMachine");
 		Moveables = GetNodeOrNull<Node3D>("Moveables");
 		ShipState[] States = new ShipState[]{
+			new ShipStoppedState(),
 			new ShipIdleState(),
 			new ShipMovingState(),
-			new ShipStoppedState(),
 			new ShipAcceleratingState(),
 			new ShipAttackedState()
 		};
@@ -72,7 +72,7 @@ public partial class ShipController : CharacterBody3D
 	
 	public override void _PhysicsProcess(double delta)
 	{
-		if (MouseCaptured == true)
+		if (MouseCaptured == true && ShipStateMachine._currentState.GetStateName() != "ShipStoppedState")
 		{
 			SmoothedLookDir = SmoothedLookDir.Lerp(TargetLookDir, MouseSmoothness);
 			LookDir = SmoothedLookDir;
@@ -154,7 +154,6 @@ public partial class ShipController : CharacterBody3D
 			if (CurrentSmoothRotation < 0.001f)
 				CurrentSmoothRotation = 0.0f;
 		}
-		GD.Print(CurrentSmoothRotation);
 	}
 	
 	public void _BodyRotation(double delta)

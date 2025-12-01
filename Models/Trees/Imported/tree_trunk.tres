@@ -1,0 +1,27 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://cdmhk8s5i67yu"]
+
+[ext_resource type="Shader" uid="uid://cicej4fbg6kue" path="res://Shaders/windy.gdshader" id="1_ab3q0"]
+[ext_resource type="Texture2D" uid="uid://bfjeck85edqj5" path="res://Models/Trees/Imported/tree_trunk.png" id="2_qyg2k"]
+[ext_resource type="Texture2D" uid="uid://bp6km8kw0nego" path="res://Models/Trees/Imported/tree_trunk_emission.png" id="3_3qxo0"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_ab3q0")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/texture_albedo = ExtResource("2_qyg2k")
+shader_parameter/roughness = 0.0
+shader_parameter/metallic_texture_channel = Vector4(0, 0, 0, 0)
+shader_parameter/specular = 0.0
+shader_parameter/metallic = 0.0
+shader_parameter/normal_scale = 1.0
+shader_parameter/texture_emission = ExtResource("3_3qxo0")
+shader_parameter/emission_strength = 0.0
+shader_parameter/enable_wind = true
+shader_parameter/wind_type = 0
+shader_parameter/wind_strength = 0.10000000475
+shader_parameter/wind_speed = 1.0
+shader_parameter/wind_frequency = 2.0
+shader_parameter/wind_direction = Vector2(1, 0)
+shader_parameter/enable_fade = false
+shader_parameter/fade_start_distance = 50.0
+shader_parameter/fade_length = 20.0
