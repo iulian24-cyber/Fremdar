@@ -28,6 +28,9 @@ public partial class ShipController : CharacterBody3D
 	Node3D Moveables;
 	float CurrentMoveableX = 0f;
 	float CurrentMoveableZ = 0f;
+	Node3D Hologram;
+	float HologramTime = 0f;
+	public AudioStreamPlayer ShipEngine;
 	
 	public override void _Ready()
 	{
@@ -36,6 +39,8 @@ public partial class ShipController : CharacterBody3D
 		Chair = GetNodeOrNull<Node3D>("Moveables/ShipMesh/Chair");
 		ShipStateMachine = GetNodeOrNull<StateMachine>("StateMachine");
 		Moveables = GetNodeOrNull<Node3D>("Moveables");
+		Hologram = GetNodeOrNull<Node3D>("Moveables/Hologram");
+		ShipEngine = GetNodeOrNull<AudioStreamPlayer>("AudioStreams/Engine");
 		ShipState[] States = new ShipState[]{
 			new ShipStoppedState(),
 			new ShipIdleState(),
@@ -48,6 +53,10 @@ public partial class ShipController : CharacterBody3D
 			state.Init(this);
 		}
 		ShipStateMachine.StartMachine(States);
+		ShipEngine.SetStream(GD.Load<AudioStream>("res://Audio/SFX/hengine_low.wav"));
+		ShipEngine.SetVolumeDb(-8f);
+		ShipEngine.Play();
+		Hologram.Visible = true;
 	}
 	
 	public override void _UnhandledInput(InputEvent @event)
@@ -68,6 +77,10 @@ public partial class ShipController : CharacterBody3D
 			else
 				CaptureMouse();
 		}
+		if (HologramTime <= 8f)
+			HologramTime += (float)delta;
+		else if (Hologram.Visible == true)
+			Hologram.Visible = false;
 	}
 	
 	public override void _PhysicsProcess(double delta)

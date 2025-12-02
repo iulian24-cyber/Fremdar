@@ -1,14 +1,56 @@
-[gd_scene load_steps=35 format=4 uid="uid://bgxa1u82660yr"]
+[gd_scene load_steps=43 format=4 uid="uid://bgxa1u82660yr"]
 
 [ext_resource type="Script" uid="uid://ditcg4xchbwn8" path="res://Scripts/ShipController.cs" id="1_8asd4"]
+[ext_resource type="Shader" uid="uid://dr7ig64g05t0g" path="res://Shaders/hologram.gdshader" id="2_3fc54"]
 [ext_resource type="Shader" uid="uid://byw0747tv6pdk" path="res://Shaders/rainy.gdshader" id="2_uh4p8"]
 [ext_resource type="Texture2D" uid="uid://bgmpvdkv1rk8w" path="res://Models/Cassian 4-62/ship_ship_diff.png" id="3_3fc54"]
+[ext_resource type="FontFile" uid="uid://bppu6gnnr14sr" path="res://Misc/Fonts/PressStart2P-Regular.ttf" id="3_exnho"]
 [ext_resource type="Texture2D" uid="uid://bpoema8bai874" path="res://Models/Cassian 4-62/ship_ship_metal-ship_rough.png" id="4_exnho"]
 [ext_resource type="Texture2D" uid="uid://drrydvyuxuvhi" path="res://Models/Cassian 4-62/ship_ship_normal.png" id="5_mbxlu"]
 [ext_resource type="Script" uid="uid://dy7fanywnrn1g" path="res://Scripts/StateMachine.cs" id="6_omcco"]
+[ext_resource type="AudioStream" uid="uid://brf7xy848jl8x" path="res://Audio/SFX/rain.mp3" id="9_exnho"]
+[ext_resource type="AudioStream" uid="uid://dn2awlimknygf" path="res://Audio/SFX/clock_drone.wav" id="10_mbxlu"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8v7by"]
 size = Vector3(3.6879425, 2.2503052, 7.44046)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3fc54"]
+render_priority = 1
+shader = ExtResource("2_3fc54")
+shader_parameter/line_color = Color(0, 1, 0, 1)
+shader_parameter/line_width = 0.0010000000475
+shader_parameter/line_blur = 0.2
+shader_parameter/line_speed = 0.02
+shader_parameter/straight_lines = false
+shader_parameter/interrupt_width = 0.0
+shader_parameter/interrupt_blur = 0.25
+shader_parameter/interrupt_speed = 0.2
+shader_parameter/glow_color = Color(0.5, 0.75, 1, 1)
+shader_parameter/glow_itensity = 4.5
+shader_parameter/glow_amount = 4.5
+shader_parameter/flickering = 0.55
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_3fc54"]
+material = SubResource("ShaderMaterial_3fc54")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_exnho"]
+render_priority = 1
+shader = ExtResource("2_3fc54")
+shader_parameter/line_color = Color(0, 1, 0, 1)
+shader_parameter/line_width = 0.0030000001425
+shader_parameter/line_blur = 0.400000019
+shader_parameter/line_speed = -0.69999998575
+shader_parameter/straight_lines = true
+shader_parameter/interrupt_width = 0.400000019
+shader_parameter/interrupt_blur = 0.25
+shader_parameter/interrupt_speed = 0.2
+shader_parameter/glow_color = Color(0, 0.827451, 0.99607843, 1)
+shader_parameter/glow_itensity = 20.0
+shader_parameter/glow_amount = 4.5
+shader_parameter/flickering = 0.55
+
+[sub_resource type="BoxMesh" id="BoxMesh_8asd4"]
+material = SubResource("ShaderMaterial_exnho")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8asd4"]
 render_priority = 1
@@ -398,10 +440,48 @@ debug_color = Color(0, 16.427145, 18.892157, 1)
 
 [node name="Moveables" type="Node3D" parent="."]
 
+[node name="GPS" type="Node3D" parent="Moveables"]
+transform = Transform3D(0.5268899, 0, 0.36084494, 0, 0.53384477, 0, -0.2761895, 0, 0.6883881, -1.1543546, 1.1214888, -1.3874297)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Moveables/GPS"]
+transform = Transform3D(0.39500004, 1.1920929e-07, -8.881784e-16, 0, -4.371139e-08, -0.32050747, 0, 1, -1.4009828e-08, 0, 0, 0)
+mesh = SubResource("PlaneMesh_3fc54")
+
+[node name="Label3D" type="Label3D" parent="Moveables/GPS"]
+render_priority = 2
+outline_render_priority = 0
+modulate = Color(0.4436149, 0.8188031, 0.51523876, 1)
+text = "Empty"
+font = ExtResource("3_exnho")
+font_size = 20
+
+[node name="Hologram" type="Node3D" parent="Moveables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15402114, 0.569029)
+visible = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Moveables/Hologram"]
+transform = Transform3D(1, 0, 0, 0, 0.48296288, -0.055646103, 0, 0.12940952, 0.20767406, 0, 1.5, -1)
+mesh = SubResource("BoxMesh_8asd4")
+
+[node name="Label3D" type="Label3D" parent="Moveables/Hologram/MeshInstance3D"]
+transform = Transform3D(0.32298222, 0, 0, 0, 1.0251207, -3.7252903e-09, 0, 0, 0.39310578, 0, 0, 0)
+render_priority = 1
+outline_render_priority = 0
+text = "Xyren Alert: Return to Base.
+Xyren Message: Martian breach
+Xyren Message: Date message 
+received 27.11.3976 8:23 AM
+"
+font = ExtResource("3_exnho")
+font_size = 18
+outline_size = 9
+line_spacing = 4.0
+
 [node name="LoadingScreen" type="Node3D" parent="Moveables"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Moveables/LoadingScreen"]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 1, 0)
+visible = false
 mesh = SubResource("PlaneMesh_8asd4")
 
 [node name="Camera" type="Camera3D" parent="Moveables"]
@@ -489,3 +569,18 @@ shape = SubResource("BoxShape3D_akkqd")
 script = ExtResource("6_omcco")
 IsLogEnabled = true
 metadata/_custom_type_script = "uid://dy7fanywnrn1g"
+
+[node name="AudioStreams" type="Node" parent="."]
+
+[node name="Rain" type="AudioStreamPlayer" parent="AudioStreams"]
+stream = ExtResource("9_exnho")
+volume_db = -80.0
+autoplay = true
+parameters/looping = true
+
+[node name="Atmoshphere" type="AudioStreamPlayer" parent="AudioStreams"]
+stream = ExtResource("10_mbxlu")
+volume_db = -80.0
+autoplay = true
+
+[node name="Engine" type="AudioStreamPlayer" parent="AudioStreams"]

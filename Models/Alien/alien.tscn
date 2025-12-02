@@ -1,6 +1,7 @@
-[gd_scene load_steps=24 format=4 uid="uid://d0nw5ofl7ullw"]
+[gd_scene load_steps=25 format=4 uid="uid://d0nw5ofl7ullw"]
 
 [ext_resource type="Texture2D" uid="uid://xk4rydw33eob" path="res://Models/Alien/alan_Ch50_1002_Diffuse.png" id="1_3rt3d"]
+[ext_resource type="Script" uid="uid://14031ow7gk6" path="res://Models/Alien/Alien.cs" id="1_7uaki"]
 [ext_resource type="Texture2D" uid="uid://bnn8aq5u7a8y7" path="res://Models/Alien/alan_Ch50_1002_Emissive.png" id="2_7uaki"]
 [ext_resource type="Texture2D" uid="uid://c8ql0o4aoy6xo" path="res://Models/Alien/alan_Ch50_1002_Glossiness.png" id="3_onfpb"]
 [ext_resource type="Texture2D" uid="uid://bi3sr2qro5ri5" path="res://Models/Alien/alan_Ch50_1002_Normal.png" id="4_s3oln"]
@@ -5398,13 +5399,14 @@ _data = {
 }
 
 [node name="Alien" type="Node3D"]
+script = ExtResource("1_7uaki")
 
-[node name="alan" type="Node3D" parent="."]
+[node name="Mesh&Animation" type="Node3D" parent="."]
 
-[node name="Armature" type="Node3D" parent="alan"]
+[node name="Armature" type="Node3D" parent="Mesh&Animation"]
 transform = Transform3D(0.01, 0, 0, 0, 0, -0.01, 0, 0.01, 0, 0, 0, 0)
 
-[node name="Skeleton3D" type="Skeleton3D" parent="alan/Armature"]
+[node name="Skeleton3D" type="Skeleton3D" parent="Mesh&Animation/Armature"]
 bones/0/name = "mixamorig1_Hips"
 bones/0/parent = -1
 bones/0/rest = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 1.0504099, -104.02376)
@@ -5749,11 +5751,11 @@ bones/48/position = Vector3(1.2838282e-06, 7.614045, 9.49949e-07)
 bones/48/rotation = Quaternion(2.0401785e-08, -2.7866918e-08, -1.891749e-09, 1)
 bones/48/scale = Vector3(1, 1, 1)
 
-[node name="Ch50" type="MeshInstance3D" parent="alan/Armature/Skeleton3D"]
+[node name="Ch50" type="MeshInstance3D" parent="Mesh&Animation/Armature/Skeleton3D"]
 mesh = SubResource("ArrayMesh_4xror")
 skin = SubResource("Skin_3w4tw")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="alan"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Mesh&Animation"]
 libraries = {
 &"": SubResource("AnimationLibrary_buo7r")
 }

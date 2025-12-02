@@ -12,6 +12,8 @@ public partial class ShipStoppedState : ShipState
 	
 	public override void Process(double delta)
 	{
+		if (Ship.ShipEngine.PitchScale > 1f)
+			Ship.ShipEngine.PitchScale -= (float)delta;
 	}
 	
 	public override void PhysicsProcess(double delta)

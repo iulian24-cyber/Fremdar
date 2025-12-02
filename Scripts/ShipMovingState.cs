@@ -17,6 +17,10 @@ public partial class ShipMovingState : ShipState
 			ShipStateMachine.Transition(ShipIdleState.StateName);
 		if (Godot.Input.IsActionPressed("Shift"))
 			ShipStateMachine.Transition(ShipAcceleratingState.StateName);
+		if (Ship.ShipEngine.PitchScale < 2f)
+			Ship.ShipEngine.PitchScale += (float)delta;
+		else if (Ship.ShipEngine.PitchScale > 2f)
+			Ship.ShipEngine.PitchScale -= (float)delta;
 	}
 	
 	public override void PhysicsProcess(double delta)

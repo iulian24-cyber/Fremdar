@@ -20,6 +20,8 @@ public partial class ShipIdleState : ShipState
 			else
 				ShipStateMachine.Transition(ShipMovingState.StateName);
 		}
+		if (Ship.ShipEngine.PitchScale > 1f)
+			Ship.ShipEngine.PitchScale -= (float)delta;
 	}
 	
 	public override void PhysicsProcess(double delta)
