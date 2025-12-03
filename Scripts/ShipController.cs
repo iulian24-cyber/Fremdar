@@ -31,6 +31,9 @@ public partial class ShipController : CharacterBody3D
 	Node3D Hologram;
 	float HologramTime = 0f;
 	public AudioStreamPlayer ShipEngine;
+	public float Health = 100f;
+	public float Sprint = 100f;
+	Label3D HealthSprintLabel;
 	
 	public override void _Ready()
 	{
@@ -41,6 +44,7 @@ public partial class ShipController : CharacterBody3D
 		Moveables = GetNodeOrNull<Node3D>("Moveables");
 		Hologram = GetNodeOrNull<Node3D>("Moveables/Hologram");
 		ShipEngine = GetNodeOrNull<AudioStreamPlayer>("AudioStreams/Engine");
+		HealthSprintLabel = GetNodeOrNull<Label3D>("Moveables/Health&Sprint/Label3D");
 		ShipState[] States = new ShipState[]{
 			new ShipStoppedState(),
 			new ShipIdleState(),
@@ -81,6 +85,10 @@ public partial class ShipController : CharacterBody3D
 			HologramTime += (float)delta;
 		else if (Hologram.Visible == true)
 			Hologram.Visible = false;
+		if(Sprint > 0f)
+			HealthSprintLabel.Text = "Health:" + Health + "%" + "\n" + "Sprint:" + Mathf.Round(Sprint) + "%";
+		else
+			HealthSprintLabel.Text = "Health:" + Health + "%" + "\n" + "Sprint:" + 0f + "%";
 	}
 	
 	public override void _PhysicsProcess(double delta)

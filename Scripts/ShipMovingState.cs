@@ -15,12 +15,14 @@ public partial class ShipMovingState : ShipState
 		Vector2 ShipInput = Godot.Input.GetVector("MoveLeft", "MoveRight", "MoveUp", "MoveDown");
 		if (ShipInput == Vector2.Zero)
 			ShipStateMachine.Transition(ShipIdleState.StateName);
-		if (Godot.Input.IsActionPressed("Shift"))
+		if (Godot.Input.IsActionPressed("Shift") && Ship.Sprint > 1f)
 			ShipStateMachine.Transition(ShipAcceleratingState.StateName);
 		if (Ship.ShipEngine.PitchScale < 2f)
 			Ship.ShipEngine.PitchScale += (float)delta;
 		else if (Ship.ShipEngine.PitchScale > 2f)
 			Ship.ShipEngine.PitchScale -= (float)delta;
+		if (Ship.Sprint < 100f)
+			Ship.Sprint += 0.05f;
 	}
 	
 	public override void PhysicsProcess(double delta)

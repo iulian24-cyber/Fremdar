@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=4 uid="uid://bgxa1u82660yr"]
+[gd_scene load_steps=44 format=4 uid="uid://bgxa1u82660yr"]
 
 [ext_resource type="Script" uid="uid://ditcg4xchbwn8" path="res://Scripts/ShipController.cs" id="1_8asd4"]
 [ext_resource type="Shader" uid="uid://dr7ig64g05t0g" path="res://Shaders/hologram.gdshader" id="2_3fc54"]
@@ -13,6 +13,25 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8v7by"]
 size = Vector3(3.6879425, 2.2503052, 7.44046)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mbxlu"]
+render_priority = 1
+shader = ExtResource("2_3fc54")
+shader_parameter/line_color = Color(0, 1, 0, 1)
+shader_parameter/line_width = 0.0010000000475
+shader_parameter/line_blur = 0.2
+shader_parameter/line_speed = 0.02
+shader_parameter/straight_lines = false
+shader_parameter/interrupt_width = 0.0
+shader_parameter/interrupt_blur = 0.25
+shader_parameter/interrupt_speed = 0.2
+shader_parameter/glow_color = Color(0.5, 0.75, 1, 1)
+shader_parameter/glow_itensity = 4.5
+shader_parameter/glow_amount = 4.5
+shader_parameter/flickering = 0.55
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_mbxlu"]
+material = SubResource("ShaderMaterial_mbxlu")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3fc54"]
 render_priority = 1
@@ -427,9 +446,6 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_feh8a")
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_akkqd"]
-size = Vector3(8, 2.0518188, 11)
-
 [node name="Cassian 4-62" type="CharacterBody3D"]
 script = ExtResource("1_8asd4")
 
@@ -439,6 +455,32 @@ shape = SubResource("BoxShape3D_8v7by")
 debug_color = Color(0, 16.427145, 18.892157, 1)
 
 [node name="Moveables" type="Node3D" parent="."]
+
+[node name="Health&Sprint" type="Node3D" parent="Moveables"]
+transform = Transform3D(0.9091312, 0, -0.53595835, 0, 1, 0, 0.6658222, 0, 0.7318117, 1.0706176, 1.190587, -0.8001692)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Moveables/Health&Sprint"]
+transform = Transform3D(0.26476288, -5.9604645e-08, 0, 0, -6.724853e-08, -0.25698423, 0, 1.5384672, -1.1233139e-08, 0, 0, 0)
+mesh = SubResource("PlaneMesh_mbxlu")
+
+[node name="Label3D" type="Label3D" parent="Moveables/Health&Sprint"]
+transform = Transform3D(0.4, 0, 0, 0, 0.359, 0, 0, 0, 0.522, 0, 0, 0)
+render_priority = 2
+outline_render_priority = 0
+modulate = Color(0.4436149, 0.8188031, 0.51523876, 1)
+text = "Empty %
+Empty %"
+font = ExtResource("3_exnho")
+font_size = 20
+outline_size = 3
+uppercase = true
+line_spacing = 6.0
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Moveables/Health&Sprint"]
+light_color = Color(0, 0.83784014, 0, 1)
+light_energy = 0.1
+omni_range = 0.846
+omni_attenuation = 0.5
 
 [node name="GPS" type="Node3D" parent="Moveables"]
 transform = Transform3D(0.5268899, 0, 0.36084494, 0, 0.53384477, 0, -0.2761895, 0, 0.6883881, -1.1543546, 1.1214888, -1.3874297)
@@ -454,6 +496,12 @@ modulate = Color(0.4436149, 0.8188031, 0.51523876, 1)
 text = "Empty"
 font = ExtResource("3_exnho")
 font_size = 20
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Moveables/GPS"]
+light_color = Color(0, 0.83784014, 0, 1)
+light_energy = 0.1
+omni_range = 0.846
+omni_attenuation = 0.5
 
 [node name="Hologram" type="Node3D" parent="Moveables"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15402114, 0.569029)
@@ -556,14 +604,6 @@ surface_material_override/0 = SubResource("StandardMaterial3D_1rqgg")
 [node name="books" type="MeshInstance3D" parent="Moveables/ShipMesh/Misc"]
 mesh = SubResource("ArrayMesh_auh34")
 skeleton = NodePath("")
-
-[node name="ShipNearArea" type="Node3D" parent="Moveables"]
-
-[node name="Area3D" type="Area3D" parent="Moveables/ShipNearArea"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Moveables/ShipNearArea/Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.12267506, 1, 1.0024321)
-shape = SubResource("BoxShape3D_akkqd")
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("6_omcco")

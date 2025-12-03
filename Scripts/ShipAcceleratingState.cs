@@ -13,15 +13,26 @@ public partial class ShipAcceleratingState : ShipState
 	public override void Process(double delta)
 	{
 		Vector2 ShipInput = Godot.Input.GetVector("MoveLeft", "MoveRight", "MoveUp", "MoveDown");
-		if (ShipInput == Vector2.Zero)
-			ShipStateMachine.Transition(ShipIdleState.StateName);
+		if (Ship.Sprint > 0f)
+		{
+			if (ShipInput == Vector2.Zero)
+				ShipStateMachine.Transition(ShipIdleState.StateName);
+			else
+			{
+				if (!Godot.Input.IsActionPressed("Shift"))
+					ShipStateMachine.Transition(ShipMovingState.StateName);
+			}
+		}
 		else
 		{
-			if (!Godot.Input.IsActionPressed("Shift"))
+			if (ShipInput == Vector2.Zero)
+				ShipStateMachine.Transition(ShipIdleState.StateName);
+			else
 				ShipStateMachine.Transition(ShipMovingState.StateName);
 		}
 		if (Ship.ShipEngine.PitchScale < 4f)
 			Ship.ShipEngine.PitchScale += (float)delta;
+		Ship.Sprint -= 1f;
 	}
 	
 	public override void PhysicsProcess(double delta)
