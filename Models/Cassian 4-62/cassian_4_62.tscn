@@ -538,7 +538,7 @@ mesh = SubResource("PlaneMesh_8asd4")
 
 [node name="Camera" type="Camera3D" parent="Moveables"]
 transform = Transform3D(1, 0, 1.7484555e-07, 0, 1, 0, -1.7484555e-07, 0, 1, 0, 1.2, 0.5)
-far = 100.0
+far = 3000.0
 
 [node name="ShipMesh" type="Node3D" parent="Moveables"]
 
