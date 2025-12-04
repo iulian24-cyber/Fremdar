@@ -92,14 +92,14 @@ transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 0, 0)
 [node name="Sunrise&SunsetPoints" type="Node3D" parent="Sky&Environment"]
 
 [node name="SunrisePoint" type="Node3D" parent="Sky&Environment/Sunrise&SunsetPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 40)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 965, 0, 952)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Sky&Environment/Sunrise&SunsetPoints/SunrisePoint"]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
 mesh = SubResource("SphereMesh_akkqd")
 
 [node name="SunsetPoint" type="Node3D" parent="Sky&Environment/Sunrise&SunsetPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 0, -40)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -970, 0, -958)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Sky&Environment/Sunrise&SunsetPoints/SunsetPoint"]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
@@ -108,7 +108,7 @@ mesh = SubResource("SphereMesh_8v7by")
 [node name="Floor" type="Node3D" parent="."]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
-transform = Transform3D(200, 0, 0, 0, 1, 0, 0, 0, 200, 0, 0, 0)
+transform = Transform3D(1500, 0, 0, 0, 1, 0, 0, 0, 1500, 0, 0, 0)
 mesh = SubResource("PlaneMesh_dtjkg")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Floor/MeshInstance3D"]
@@ -117,7 +117,7 @@ mesh = SubResource("PlaneMesh_dtjkg")
 shape = SubResource("ConvexPolygonShape3D_xq3o0")
 
 [node name="Cassian 4-62" parent="." instance=ExtResource("9_vofx3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, 932, 0.5, 916)
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_qxfql")
@@ -178,4 +178,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.914045, 3.0516815, 12.326
 shape = SubResource("BoxShape3D_ha31o")
 
 [node name="Alien" parent="MartianArea3D" instance=ExtResource("10_00k4y")]
-transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, -30.754776, 0, -4.0618553)
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, -11, 0, 1)
+
+[node name="Alien2" parent="MartianArea3D" instance=ExtResource("10_00k4y")]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, -13, 0, 1)
+
+[node name="Alien3" parent="MartianArea3D" instance=ExtResource("10_00k4y")]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, -12, 0, 0)

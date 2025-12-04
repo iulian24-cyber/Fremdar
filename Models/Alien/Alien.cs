@@ -19,6 +19,11 @@ public partial class Alien : CharacterBody3D
 	MartianArea3D MartianArea;
 	ShipController Ship;
 	NavigationAgent3D NavAgent;
+	HitArea3D HitCollisionArea;
+	bool ChooseRandomAnim = false;
+	int RandomNumber;
+	private RandomNumberGenerator Rng = new RandomNumberGenerator();
+	AudioStreamPlayer3D Moving, Hitting;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -26,12 +31,17 @@ public partial class Alien : CharacterBody3D
 		InitialLocation = GetNodeOrNull<Node3D>("InitialLocation");
 		InitialLocationPosition = InitialLocation.GlobalPosition;
 		NavAgent = GetNodeOrNull<NavigationAgent3D>("NavigationAgent3D");
+		HitCollisionArea = GetTree().CurrentScene.GetNodeOrNull<HitArea3D>("Cassian 4-62/Moveables/HitCollision/HitArea3D");
 		Ship = GetTree().CurrentScene.GetNodeOrNull<ShipController>("Cassian 4-62");
 		MartianArea = GetParent<MartianArea3D>();
+		Moving = GetNodeOrNull<AudioStreamPlayer3D>("AudioStreams/Moving");
+		Hitting = GetNodeOrNull<AudioStreamPlayer3D>("AudioStreams/Hitting");
+		Moving.SetStream(GD.Load<AudioStream>("res://Audio/SFX/footsteps.wav"));
+		Moving.SetVolumeDb(-2f);
 		AlienPhase = AlienPhases.StayingInitialLocation;
 		AlienAnimPlayer.Play("Idle");
 	}
-
+	
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
@@ -42,8 +52,8 @@ public partial class Alien : CharacterBody3D
 		{ 
 			if (MartianArea.ShipInsideMartianArea == false)
 				AlienPhase = AlienPhases.ReturningInitialLocation;
-			//else if (MartianArea.Ship == true) // in proximity
-				//AlienPhase = Aline.AttackingShip;
+			else if (HitCollisionArea.AlienInHitCollision == true)
+				AlienPhase = AlienPhases.AttackingShip;
 		}
 		if (AlienPhase == AlienPhases.ReturningInitialLocation)
 		{
@@ -52,21 +62,68 @@ public partial class Alien : CharacterBody3D
 			else if (NavAgent.IsNavigationFinished() == true)
 				AlienPhase = AlienPhases.StayingInitialLocation;
 		}
-		//Changing Animations using said Phases
+		if (AlienPhase == AlienPhases.AttackingShip)
+		{
+			if (HitCollisionArea.AlienInHitCollision == false)
+			{
+				AlienPhase = AlienPhases.FollowingShip;
+				ChooseRandomAnim = false;
+			}
+			if (MartianArea.ShipInsideMartianArea == false)
+			{
+				AlienPhase = AlienPhases.ReturningInitialLocation;
+				ChooseRandomAnim = false;
+			}
+		}
+		//Changing Animations/Sounds/Logic using said Phases
 		if (AlienPhase == AlienPhases.StayingInitialLocation) // Idle
 		{
 			AlienAnimPlayer.Play("Idle");
 			AlienAnimPlayer.SpeedScale = 1f;
+			Moving.Stop();
+			Hitting.Stop();
 		}
 		else if (AlienPhase == AlienPhases.FollowingShip || AlienPhase == AlienPhases.ReturningInitialLocation) // Walk
 		{
 			AlienAnimPlayer.Play("Walk");
 			AlienAnimPlayer.SpeedScale = 2f;
+			Moving.Play();
+			Hitting.Stop();
 		}
-		else if (AlienPhase == AlienPhases.AttackingShip) // Kick/Punch/Punch1 (insert randomizer)
+		else if (AlienPhase == AlienPhases.AttackingShip)
 		{
-			AlienAnimPlayer.Play("Kick");
-			AlienAnimPlayer.SpeedScale = 1f;
+			if (ChooseRandomAnim == false)
+			{
+				Rng.Randomize();
+				RandomNumber = Rng.RandiRange(1, 2);
+				ChooseRandomAnim = true;
+			}
+			if (RandomNumber == 1)
+			{
+				AlienAnimPlayer.SpeedScale = 1.3f;
+				AlienAnimPlayer.Play("Kick");
+			}
+			else
+			{
+				AlienAnimPlayer.SpeedScale = 1f;
+				AlienAnimPlayer.Play("Punch");
+			}
+			GD.Print(AlienAnimPlayer.CurrentAnimationPosition);
+			if (RandomNumber == 1 && AlienAnimPlayer.CurrentAnimationPosition >= 0.001f && AlienAnimPlayer.CurrentAnimationPosition <= 0.02f)
+			{
+				Ship.Health -= 5f;
+				Hitting.SetStream(GD.Load<AudioStream>("res://Audio/SFX/kick.wav"));
+				Hitting.SetVolumeDb(-2f);
+				Hitting.Play();
+			}
+			else if (RandomNumber == 2 && AlienAnimPlayer.CurrentAnimationPosition >= 0.01f && AlienAnimPlayer.CurrentAnimationPosition <= 0.02f)
+			{
+				Ship.Health -= 5f;
+				Hitting.SetStream(GD.Load<AudioStream>("res://Audio/SFX/punch.mp3"));
+				Hitting.SetVolumeDb(-3f);
+				Hitting.Play();
+			}
+			Moving.Stop();
 		}
 	}
 	
@@ -82,7 +139,11 @@ public partial class Alien : CharacterBody3D
 		}
 		else if (AlienPhase == AlienPhases.AttackingShip)
 		{
-			
+			// test
+			LookAt(new Vector3(Ship.GlobalPosition.X, GlobalPosition.Y, Ship.GlobalPosition.Z), Vector3.Up);
+			NavAgent.SetTargetPosition(Ship.GlobalTransform.Origin);
+			var NextNavPoint = NavAgent.GetNextPathPosition();
+			Velocity = (NextNavPoint - GlobalTransform.Origin).Normalized() * Speed;
 		}
 		else if (AlienPhase == AlienPhases.ReturningInitialLocation)
 		{

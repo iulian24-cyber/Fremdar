@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=4 uid="uid://bgxa1u82660yr"]
+[gd_scene load_steps=46 format=4 uid="uid://bgxa1u82660yr"]
 
 [ext_resource type="Script" uid="uid://ditcg4xchbwn8" path="res://Scripts/ShipController.cs" id="1_8asd4"]
 [ext_resource type="Shader" uid="uid://dr7ig64g05t0g" path="res://Shaders/hologram.gdshader" id="2_3fc54"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://bpoema8bai874" path="res://Models/Cassian 4-62/ship_ship_metal-ship_rough.png" id="4_exnho"]
 [ext_resource type="Texture2D" uid="uid://drrydvyuxuvhi" path="res://Models/Cassian 4-62/ship_ship_normal.png" id="5_mbxlu"]
 [ext_resource type="Script" uid="uid://dy7fanywnrn1g" path="res://Scripts/StateMachine.cs" id="6_omcco"]
+[ext_resource type="Script" uid="uid://cefucd53newhk" path="res://Scripts/HitArea3D.cs" id="8_omcco"]
 [ext_resource type="AudioStream" uid="uid://brf7xy848jl8x" path="res://Audio/SFX/rain.mp3" id="9_exnho"]
 [ext_resource type="AudioStream" uid="uid://dn2awlimknygf" path="res://Audio/SFX/clock_drone.wav" id="10_mbxlu"]
 
@@ -446,6 +447,9 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_feh8a")
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_mbxlu"]
+size = Vector3(5.7796326, 1, 8.615356)
+
 [node name="Cassian 4-62" type="CharacterBody3D"]
 script = ExtResource("1_8asd4")
 
@@ -604,6 +608,16 @@ surface_material_override/0 = SubResource("StandardMaterial3D_1rqgg")
 [node name="books" type="MeshInstance3D" parent="Moveables/ShipMesh/Misc"]
 mesh = SubResource("ArrayMesh_auh34")
 skeleton = NodePath("")
+
+[node name="HitCollision" type="Node3D" parent="Moveables"]
+
+[node name="HitArea3D" type="Area3D" parent="Moveables/HitCollision"]
+script = ExtResource("8_omcco")
+metadata/_custom_type_script = "uid://cefucd53newhk"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Moveables/HitCollision/HitArea3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.010269165, 0.5, 0.5928345)
+shape = SubResource("BoxShape3D_mbxlu")
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("6_omcco")
