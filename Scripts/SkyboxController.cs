@@ -32,10 +32,18 @@ public partial class SkyboxController : WorldEnvironment
 			Sun.Transform = T;
 			Moon.Transform = Sun.Transform.Inverse();
 			if (Distance <= 0.0f)
+			{
 				Sun.LightEnergy = Mathf.Lerp(Sun.LightEnergy, 1.0f, 0.1f);
+				Environment.FogLightEnergy = Mathf.Lerp(Environment.FogLightEnergy, 1.0f, 0.1f);
+			}
 			else
+			{
 				Sun.LightEnergy = Mathf.Lerp(Sun.LightEnergy, 0.0f, 0.1f);
+				Environment.FogLightEnergy = Mathf.Lerp(Environment.FogLightEnergy, 0.0f, 0.1f);
+			}
 		}
+		
+		
 		
 		// Skybox Shader Parameters
 		Vector3 sun_dir = GetNode<Node3D>("../Sun").GlobalTransform.Basis.Z;

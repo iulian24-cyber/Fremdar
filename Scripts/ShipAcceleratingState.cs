@@ -32,7 +32,7 @@ public partial class ShipAcceleratingState : ShipState
 		}
 		if (Ship.ShipEngine.PitchScale < 4f)
 			Ship.ShipEngine.PitchScale += (float)delta;
-		Ship.Sprint -= 1f;
+		Ship.Sprint -= .5f;
 	}
 	
 	public override void PhysicsProcess(double delta)

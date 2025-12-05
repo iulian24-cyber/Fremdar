@@ -1,7 +1,7 @@
 [gd_scene load_steps=26 format=4 uid="uid://d0nw5ofl7ullw"]
 
 [ext_resource type="Texture2D" uid="uid://xk4rydw33eob" path="res://Models/Alien/alan_Ch50_1002_Diffuse.png" id="1_3rt3d"]
-[ext_resource type="Script" uid="uid://14031ow7gk6" path="res://Models/Alien/Alien.cs" id="1_7uaki"]
+[ext_resource type="Script" uid="uid://14031ow7gk6" path="res://Scripts/Alien.cs" id="1_7uaki"]
 [ext_resource type="Texture2D" uid="uid://bnn8aq5u7a8y7" path="res://Models/Alien/alan_Ch50_1002_Emissive.png" id="2_7uaki"]
 [ext_resource type="Texture2D" uid="uid://c8ql0o4aoy6xo" path="res://Models/Alien/alan_Ch50_1002_Glossiness.png" id="3_onfpb"]
 [ext_resource type="Texture2D" uid="uid://bi3sr2qro5ri5" path="res://Models/Alien/alan_Ch50_1002_Normal.png" id="4_s3oln"]
@@ -5774,10 +5774,6 @@ shape = SubResource("BoxShape3D_7uaki")
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 
 [node name="AudioStreams" type="Node" parent="."]
-
-[node name="Moving" type="AudioStreamPlayer3D" parent="AudioStreams"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-max_db = -5.0
 
 [node name="Hitting" type="AudioStreamPlayer3D" parent="AudioStreams"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

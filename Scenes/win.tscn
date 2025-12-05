@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://eq7jl4cjrnrx"]
+
+[ext_resource type="Script" uid="uid://cp5t7t5fdxxrv" path="res://Scenes/Win.cs" id="1_j84t1"]
+[ext_resource type="FontFile" uid="uid://bppu6gnnr14sr" path="res://Misc/Fonts/PressStart2P-Regular.ttf" id="2_3mm25"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j84t1"]
+albedo_color = Color(0, 0, 0, 1)
+metallic_specular = 0.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ail0s"]
+material = SubResource("StandardMaterial3D_j84t1")
+
+[node name="Win" type="Node3D"]
+script = ExtResource("1_j84t1")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+
+[node name="BlackScreen" type="Node3D" parent="."]
+
+[node name="Label3D" type="Label3D" parent="BlackScreen"]
+transform = Transform3D(1.5, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.1)
+text = "Win."
+font = ExtResource("2_3mm25")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BlackScreen"]
+transform = Transform3D(1.5, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+mesh = SubResource("PlaneMesh_ail0s")

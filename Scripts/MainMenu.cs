@@ -9,6 +9,7 @@ public partial class MainMenu : Node3D
 	PackedScene Level;
 	public override void _Ready()
 	{
+		Input.MouseMode = Input.MouseModeEnum.Visible;
 		Level = ResourceLoader.Load<PackedScene>("res://Scenes/level.tscn");
 		StartLabel = GetNodeOrNull<Label3D>("Buttons/Start/Label3D");
 		ExitLabel = GetNodeOrNull<Label3D>("Buttons/Exit/Label3D");

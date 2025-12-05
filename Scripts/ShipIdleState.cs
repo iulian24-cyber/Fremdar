@@ -23,7 +23,7 @@ public partial class ShipIdleState : ShipState
 		if (Ship.ShipEngine.PitchScale > 1f)
 			Ship.ShipEngine.PitchScale -= (float)delta;
 		if (Ship.Sprint < 100f)
-			Ship.Sprint += 0.1f;
+			Ship.Sprint += 0.3f;
 	}
 	
 	public override void PhysicsProcess(double delta)
