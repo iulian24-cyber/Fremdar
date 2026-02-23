@@ -1,0 +1,2 @@
+First-person prototype developed in Godot Engine (.NET C#) featuring physics-based movement, modular state-machine architecture (player vehicle and NPC AI), obstacle detection, scripted events, and a real-time skybox system generated based on location. Includes 3D NPC models with animations from Mixamo, basic audio integration, and simple gameplay systems implemented within a short development cycle.
+
