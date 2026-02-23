@@ -11,7 +11,7 @@ The project demonstrates physics-based movement, modular state machines, and pro
 ## ✨ Features
 
 - 🎮 Physics-based first-person controller  
-- 🧠 Modular **state-machine architecture** (player vehicle + NPC AI)  
+- 🧠 Modular **state-machine architecture** (player vehicle + NPCs)  
 - 🤖 3D NPCs with Mixamo animations  
 - 🌌 Real-time skybox generated based on location  
 - 🚧 Obstacle detection and scripted events  
