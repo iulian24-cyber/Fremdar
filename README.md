@@ -1,6 +1,6 @@
 ## 🥥 Game prototype available on Itch.io
 
-(https://linxit-studios.itch.io/fremdar)
+https://linxit-studios.itch.io/fremdar
 
 # 🚀 Fremdar — Godot.NET Prototype
 
