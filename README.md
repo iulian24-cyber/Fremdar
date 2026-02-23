@@ -6,7 +6,7 @@ https://linxit-studios.itch.io/fremdar
 
 A short first-person exploration prototype built with Godot (.NET C#) as a 1-week university project, focused on technical systems, architecture, and rapid development.
 
-The project demonstrates physics-based movement, modular AI state machines, and procedural environment elements within a compact development timeframe.
+The project demonstrates physics-based movement, modular state machines, and procedural environment elements within a compact development timeframe.
 
 ## ✨ Features
 
