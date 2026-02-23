@@ -1,2 +1,78 @@
-First-person prototype developed in Godot Engine (.NET C#) featuring physics-based movement, modular state-machine architecture (player vehicle and NPC AI), obstacle detection, scripted events, and a real-time skybox system generated based on location. Includes 3D NPC models with animations from Mixamo, basic audio integration, and simple gameplay systems implemented within a short development cycle.
+🚀 Xyren Explorer — Godot.NET Prototype
 
+A short first-person exploration prototype built in Godot Engine (.NET C#) as a 1-week university project, focused on technical systems, architecture, and rapid development.
+
+The project demonstrates physics-based movement, modular AI state machines, and procedural environment elements within a compact development timeframe.
+
+✨ Features
+
+🎮 Physics-based first-person controller
+
+🧠 Modular state-machine architecture (player vehicle + NPC AI)
+
+🤖 3D NPCs with animations from Mixamo
+
+🌌 Real-time skybox generated based on location
+
+🚧 Obstacle detection and scripted events
+
+🔊 Minimal sound design and audio cues
+
+⚡ Rapid prototype built in 1 week
+
+🏗️ Technical Overview
+
+Engine: Godot.NET (C#)
+
+Architecture: State Machines + Component-based logic
+
+Movement: Rigidbody/physics driven controller
+
+AI: Simple behavior states with transitions
+
+Assets: External animated models + custom environment setup
+
+🎯 Project Goals
+
+Practice gameplay architecture in Godot with C#
+
+Implement reusable state-machine systems
+
+Prototype a complete playable loop in a short timeframe
+
+Explore physics-based vehicle movement
+
+⏱️ Development Time
+
+Total development time: ~1 week
+Estimated gameplay duration: 10–15 minutes
+
+📸 Screenshots
+
+(Add screenshots here)
+
+📦 Build / Run
+
+Install Godot with .NET support
+
+Clone the repository
+
+Open the project folder in Godot
+
+Run the main scene
+
+📚 Learning Focus
+
+This project focuses on:
+
+Game architecture
+
+Physics movement systems
+
+AI state machines
+
+Rapid prototyping workflows
+
+🧑‍💻 Author
+
+University project created for learning purposes.
